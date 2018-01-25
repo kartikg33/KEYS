@@ -7,6 +7,7 @@
 */
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "UI.h"
 
 //==============================================================================
 /*
@@ -23,11 +24,14 @@ public:
 
         // specify the number of input and output channels that we want to open
         setAudioChannels (2, 2);
+        
+        addAndMakeVisible(ui = new UI());
     }
 
     ~MainContentComponent()
     {
         shutdownAudio();
+        ui = nullptr;
     }
 
     //==============================================================================
@@ -83,7 +87,7 @@ private:
 
     // Your private member variables go here...
 
-
+    ScopedPointer<UI> ui = nullptr;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainContentComponent)
 };
 
