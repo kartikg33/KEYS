@@ -7,7 +7,8 @@
 */
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "UI.h"
+#include "ui/UI.h"
+#include "Keytar.h"
 
 //==============================================================================
 /*
@@ -25,13 +26,12 @@ public:
         // specify the number of input and output channels that we want to open
         setAudioChannels (2, 2);
         
-        addAndMakeVisible(ui = new UI());
+        addAndMakeVisible(ui);
     }
 
     ~MainContentComponent()
     {
         shutdownAudio();
-        ui = nullptr;
     }
 
     //==============================================================================
@@ -44,8 +44,14 @@ public:
         // but be careful - it will be called on the audio thread, not the GUI thread.
 
         // For more details, see the help for AudioProcessor::prepareToPlay()
+        instrument.setCurrentPlaybackSampleRate(sampleRate);
     }
 
+    void processBlock (AudioBuffer<float> &buffer, MidiBuffer &midiMessages)
+    {
+        instrument.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
+    }
+    
     void getNextAudioBlock (const AudioSourceChannelInfo& bufferToFill) override
     {
         // Your audio-processing code goes here!
@@ -54,7 +60,7 @@ public:
 
         // Right now we are not producing any data, in which case we need to clear the buffer
         // (to prevent the output of random noise)
-        bufferToFill.clearActiveBufferRegion();
+        bufferToFill.clearActiveBufferRegion();    
     }
 
     void releaseResources() override
@@ -87,7 +93,8 @@ private:
 
     // Your private member variables go here...
 
-    ScopedPointer<UI> ui = nullptr;
+    UI ui;
+    Keytar instrument;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainContentComponent)
 };
 
