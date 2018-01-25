@@ -33,7 +33,8 @@
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class UI  : public Component
+class UI  : public Component,
+            public Slider::Listener
 {
 public:
     //==============================================================================
@@ -46,6 +47,7 @@ public:
 
     void paint (Graphics& g) override;
     void resized() override;
+    void sliderValueChanged (Slider* sliderThatWasMoved) override;
 
 
 
@@ -54,6 +56,7 @@ private:
     //[/UserVariables]
 
     //==============================================================================
+    ScopedPointer<Slider> slider;
 
 
     //==============================================================================
