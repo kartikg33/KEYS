@@ -373,6 +373,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\UI.cpp">
+      <Filter>KEYS\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\MainComponent.cpp">
       <Filter>KEYS\Source</Filter>
     </ClCompile>
@@ -2145,6 +2148,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\UI.h">
+      <Filter>KEYS\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\..\..\..\Applications\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h">
       <Filter>Juce Modules\juce_audio_basics\audio_play_head</Filter>
     </ClInclude>
