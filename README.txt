@@ -1,0 +1,2 @@
+Download JUCE 5 and place in a globally accessible location e.g. C:\\ or somewhere in the home folder
+Ensure the .jucer project file has been set up to be able to find the modules folder in these locations
