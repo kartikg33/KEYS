@@ -1,5 +1,9 @@
 Install apt get:
+
 sudo apt-get update
+sudo apt install
+sudo apt update
+
 
 Install the following libraries:
 
