@@ -13,6 +13,9 @@ sudo apt-get install libxrandr-dev libwebkit-dev
 Install GCC and G++:
 sudo apt-get install gcc-4.7 g++-4.7
 
+Install :
+webkit2gtk-4.0
+gtk+-x11-3.0
 
 Edit the Makefile in two places:
 
