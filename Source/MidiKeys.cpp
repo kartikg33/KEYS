@@ -10,7 +10,6 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "MidiKeys.h"
-#include "MainComponent.cpp"
 
 //==============================================================================
 
