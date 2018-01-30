@@ -1,7 +1,7 @@
 /*
   ==============================================================================
 
-    Keys.cpp
+    MidiKeys.cpp
     Created: 30 Jan 2018 10:38:34am
     Author:  Kartik Gohil
 
@@ -9,7 +9,7 @@
 */
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "Keys.h"
+#include "MidiKeys.h"
 #include "MainComponent.cpp"
 
 //==============================================================================
@@ -46,7 +46,7 @@ void MidiLogListBoxModel::paintListBoxItem(int row, Graphics& g, int width, int 
 
 //==============================================================================
 
-Keys::Keys()
+MidiKeys::MidiKeys()
 	: lastInputIndex(0), isAddingFromMidiInput(false)
 	, keyboardComponent(keyboardState, MidiKeyboardComponent::horizontalKeyboard)
 	, midiLogListBoxModel(midiMessageList)
@@ -98,14 +98,14 @@ Keys::Keys()
 	messageListBox.setModel(&midiLogListBoxModel);
 }
 
-Keys::~Keys()
+MidiKeys::~MidiKeys()
 {
 	keyboardState.removeListener(this);
 	deviceManager.removeMidiInputCallback(MidiInput::getDevices()[midiInputList.getSelectedItemIndex()], this);
 	midiInputList.removeListener(this);
 }
 
-void Keys::paint (Graphics& g)
+void MidiKeys::paint (Graphics& g)
 {
     /* This demo code just fills the component's background and
        draws some placeholder text to get you started.
@@ -121,12 +121,12 @@ void Keys::paint (Graphics& g)
 
     g.setColour (Colours::white);
     g.setFont (14.0f);
-    g.drawText ("Keys", getLocalBounds(),
+    g.drawText ("MidiKeys", getLocalBounds(),
                 Justification::centred, true);   // draw some placeholder text
 
 }
 
-void Keys::resized()
+void MidiKeys::resized()
 {
     // This method is where you should set the bounds of any child
     // components that your component contains..
@@ -140,7 +140,7 @@ void Keys::resized()
 
 //==============================================================================
 /** Starts listening to a MIDI input device, enabling it if necessary. */
-void Keys::setMidiInput(int index)
+void MidiKeys::setMidiInput(int index)
 {
 	const StringArray list(MidiInput::getDevices());
 
@@ -158,7 +158,7 @@ void Keys::setMidiInput(int index)
 }
 
 //==============================================================================
-void Keys::setMidiOutput(int index)
+void MidiKeys::setMidiOutput(int index)
 {
 	currentMidiOutput = nullptr;
 
@@ -169,21 +169,21 @@ void Keys::setMidiOutput(int index)
 	}
 }
 
-void Keys::comboBoxChanged(ComboBox* box) 
+void MidiKeys::comboBoxChanged(ComboBox* box) 
 {
 	if (box == &midiInputList)    setMidiInput(midiInputList.getSelectedItemIndex());
 	if (box == &midiOutputList)   setMidiOutput(midiOutputList.getSelectedItemIndex());
 }
 
 // These methods handle callbacks from the midi device + on-screen keyboard..
-void Keys::handleIncomingMidiMessage(MidiInput*, const MidiMessage& message) 
+void MidiKeys::handleIncomingMidiMessage(MidiInput*, const MidiMessage& message) 
 {
 	const ScopedValueSetter<bool> scopedInputFlag(isAddingFromMidiInput, true);
 	keyboardState.processNextMidiEvent(message);
 	postMessageToList(message);
 }
 
-void Keys::handleNoteOn(MidiKeyboardState*, int midiChannel, int midiNoteNumber, float velocity) 
+void MidiKeys::handleNoteOn(MidiKeyboardState*, int midiChannel, int midiNoteNumber, float velocity) 
 {
 	if (!isAddingFromMidiInput)
 	{
@@ -193,7 +193,7 @@ void Keys::handleNoteOn(MidiKeyboardState*, int midiChannel, int midiNoteNumber,
 	}
 }
 
-void Keys::handleNoteOff(MidiKeyboardState*, int midiChannel, int midiNoteNumber, float velocity) 
+void MidiKeys::handleNoteOff(MidiKeyboardState*, int midiChannel, int midiNoteNumber, float velocity) 
 {
 	if (!isAddingFromMidiInput)
 	{
@@ -203,7 +203,7 @@ void Keys::handleNoteOff(MidiKeyboardState*, int midiChannel, int midiNoteNumber
 	}
 }
 
-void Keys::postMessageToList(const MidiMessage& message)
+void MidiKeys::postMessageToList(const MidiMessage& message)
 {
 	if (currentMidiOutput != nullptr)
 		currentMidiOutput->sendMessageNow(message);
@@ -211,13 +211,13 @@ void Keys::postMessageToList(const MidiMessage& message)
 	(new IncomingMessageCallback(this, message))->post();
 }
 
-void Keys::addMessageToList(const MidiMessage& message)
+void MidiKeys::addMessageToList(const MidiMessage& message)
 {
 	midiMessageList.add(message);
 	triggerAsyncUpdate();
 }
 
-void Keys::handleAsyncUpdate() 
+void MidiKeys::handleAsyncUpdate() 
 {
 	messageListBox.updateContent();
 	messageListBox.scrollToEnsureRowIsOnscreen(midiMessageList.size() - 1);

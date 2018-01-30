@@ -9,7 +9,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "ui/UI.h"
 #include "Keytar.h"
-#include "Keys.h"
+#include "MidiKeys.h"
 
 //==============================================================================
 /*

@@ -1,7 +1,7 @@
 /*
   ==============================================================================
 
-    Keys.h
+    MidiKeys.h
     Created: 30 Jan 2018 10:38:34am
     Author:  Kartik Gohil
 
@@ -34,15 +34,15 @@ private:
 
 //==============================================================================
 
-class Keys		: public Component
+class MidiKeys		: public Component
 				, private ComboBox::Listener
 				, private MidiInputCallback
 				, private MidiKeyboardStateListener
 				, private AsyncUpdater
 {
 public:
-    Keys();
-    ~Keys();
+    MidiKeys();
+    ~MidiKeys();
 
     void paint (Graphics&) override;
     void resized() override;
@@ -76,7 +76,7 @@ private:
 	// This is used to dispach an incoming message to the message thread
 	struct IncomingMessageCallback : public CallbackMessage
 	{
-		IncomingMessageCallback(Keys* d, const MidiMessage& m)
+		IncomingMessageCallback(MidiKeys* d, const MidiMessage& m)
 			: demo(d), message(m) {}
 
 		void messageCallback() override
@@ -85,9 +85,9 @@ private:
 				demo->addMessageToList(message);
 		}
 
-		Component::SafePointer<Keys> demo;
+		Component::SafePointer<MidiKeys> demo;
 		MidiMessage message;
 	};
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Keys)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MidiKeys)
 };
