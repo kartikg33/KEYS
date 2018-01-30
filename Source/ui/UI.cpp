@@ -48,7 +48,7 @@ UI::UI ()
     slider->setValue(50, dontSendNotification);
     //[/UserPreSize]
 
-    setSize (800, 600);
+    setSize (800, 480); // raspberry pi 7'' touchscreen
 
 
     //[Constructor] You can add your own custom stuff here..

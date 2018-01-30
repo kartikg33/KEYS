@@ -4,7 +4,7 @@
     MidiKeys.h
     Created: 30 Jan 2018 10:38:34am
     Author:  Kartik Gohil
-	Brief:	 This class manages external MIDI devices and handles 
+	Brief:	 This class manages external MIDI devices and handles MIDI messages
 
   ==============================================================================
 */
