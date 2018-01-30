@@ -4,6 +4,7 @@
     MidiKeys.h
     Created: 30 Jan 2018 10:38:34am
     Author:  Kartik Gohil
+	Brief:	 This class manages external MIDI devices and handles 
 
   ==============================================================================
 */
@@ -34,7 +35,7 @@ private:
 
 //==============================================================================
 
-class MidiKeys		: public Component
+class MidiKeys	: public Component
 				, private ComboBox::Listener
 				, private MidiInputCallback
 				, private MidiKeyboardStateListener

@@ -46,7 +46,8 @@ void MidiLogListBoxModel::paintListBoxItem(int row, Graphics& g, int width, int 
 //==============================================================================
 
 MidiKeys::MidiKeys()
-	: lastInputIndex(0), isAddingFromMidiInput(false)
+	: lastInputIndex(0)
+	, isAddingFromMidiInput(false)
 	, keyboardComponent(keyboardState, MidiKeyboardComponent::horizontalKeyboard)
 	, midiLogListBoxModel(midiMessageList)
 {
