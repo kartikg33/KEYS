@@ -28,7 +28,11 @@ public:
         setAudioChannels (2, 2);
         
 		// add keytar ui to main component
-        addAndMakeVisible(ui); 
+        //addAndMakeVisible(ui); 
+
+		// add demo MIDI ui to main component
+		addAndMakeVisible(keys);
+		keys.centreWithSize(getWidth(), getHeight());
     }
 
     ~MainContentComponent()
@@ -97,6 +101,7 @@ private:
 
     UI ui;
     Keytar instrument;
+	MidiKeys keys;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainContentComponent)
 };

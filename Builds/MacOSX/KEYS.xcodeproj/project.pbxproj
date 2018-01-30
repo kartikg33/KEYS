@@ -22,6 +22,7 @@
 		13235A79BE81C7EA24E3C6A0 = {isa = PBXBuildFile; fileRef = A70E3AC42FB0C7199B315C73; };
 		2EA8094DD3AD7E77643A7FFF = {isa = PBXBuildFile; fileRef = A36B753CF2EE108A20173403; };
 		91D124DF087ABB562BDE72D1 = {isa = PBXBuildFile; fileRef = 9B905F47D1AE1784510657E6; };
+		D44DBCF2305CFFCF4071E8AB = {isa = PBXBuildFile; fileRef = C8522052DFDE97887793FF2A; };
 		315CAC27D9CA1F61D95A292E = {isa = PBXBuildFile; fileRef = 5460A04BCB587ADC2F5E0AFC; };
 		6C6BFD887C3D8B08F5D83A6C = {isa = PBXBuildFile; fileRef = 50E6E9A94596E5261EFB5A2D; };
 		D0D80F508DA50F4C51F56EF0 = {isa = PBXBuildFile; fileRef = 810489E1C1F60A81BB0AF998; };
@@ -83,6 +84,7 @@
 		B55FB6930F983B74D0D4BC24 = {isa = PBXFileReference; lastKnownFileType = file; name = "juce_audio_devices"; path = "../../../../../../Applications/JUCE/modules/juce_audio_devices"; sourceTree = "SOURCE_ROOT"; };
 		B6CF5705474C256B398D2665 = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		B9F5C39B44A0868DA9A44E61 = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		C8522052DFDE97887793FF2A = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = MidiKeys.cpp; path = ../../Source/MidiKeys.cpp; sourceTree = "SOURCE_ROOT"; };
 		CC84FDAFB7FF7A69412C3B16 = {isa = PBXFileReference; lastKnownFileType = file; name = "juce_gui_extra"; path = "../../../../../../Applications/JUCE/modules/juce_gui_extra"; sourceTree = "SOURCE_ROOT"; };
 		CD219D7401BB4BB50031519E = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
 		CF339B6559EC81B03CCBFFB2 = {isa = PBXFileReference; lastKnownFileType = file; name = "juce_opengl"; path = "../../../../../../Applications/JUCE/modules/juce_opengl"; sourceTree = "SOURCE_ROOT"; };
@@ -90,6 +92,7 @@
 		D387AE0255078D80ACEB2CBC = {isa = PBXFileReference; lastKnownFileType = file; name = "juce_audio_utils"; path = "../../../../../../Applications/JUCE/modules/juce_audio_utils"; sourceTree = "SOURCE_ROOT"; };
 		D970E61085824AD584F1E8C2 = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		D978EC4B918896FDE4C3F343 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppConfig.h; path = ../../JuceLibraryCode/AppConfig.h; sourceTree = "SOURCE_ROOT"; };
+		E4375CFF90A96278BBE6D102 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MidiKeys.h; path = ../../Source/MidiKeys.h; sourceTree = "SOURCE_ROOT"; };
 		E80B6DA25A852BE90B53DD21 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = "include_juce_core.mm"; path = "../../JuceLibraryCode/include_juce_core.mm"; sourceTree = "SOURCE_ROOT"; };
 		E886A996B1B414A2BBD11869 = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		F0E0D729F555941137AF2882 = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
@@ -97,6 +100,8 @@
 					0EB6BF4D560309CD2B6A50DA,
 					B55705FF32ABC6FD90029C1E, ); name = ui; sourceTree = "<group>"; };
 		2B6171C68B4B00747EBF414E = {isa = PBXGroup; children = (
+					C8522052DFDE97887793FF2A,
+					E4375CFF90A96278BBE6D102,
 					5460A04BCB587ADC2F5E0AFC,
 					A02A7979C61CE54BE75FC245,
 					50E6E9A94596E5261EFB5A2D,
@@ -311,6 +316,7 @@
 		B9F317D4D1D3325DF174D915 = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (
 					91D124DF087ABB562BDE72D1, ); runOnlyForDeploymentPostprocessing = 0; };
 		8CF16E07FF1D7F8D637E4455 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (
+					D44DBCF2305CFFCF4071E8AB,
 					315CAC27D9CA1F61D95A292E,
 					6C6BFD887C3D8B08F5D83A6C,
 					D0D80F508DA50F4C51F56EF0,

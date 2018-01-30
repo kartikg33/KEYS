@@ -376,6 +376,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\MidiKeys.cpp">
+      <Filter>KEYS\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\Keytar.cpp">
       <Filter>KEYS\Source</Filter>
     </ClCompile>
@@ -2154,6 +2157,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\MidiKeys.h">
+      <Filter>KEYS\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\Keytar.h">
       <Filter>KEYS\Source</Filter>
     </ClInclude>
