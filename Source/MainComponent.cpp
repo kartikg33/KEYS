@@ -20,13 +20,18 @@ class MainContentComponent   : public AudioAppComponent
 public:
     //==============================================================================
     MainContentComponent()
+		: lastInputIndex(0) // init to 0
+		, isAddingFromMidiInput(false)	// default to receiving data from on-screen keyboard (false)
+		, keyboardComponent(keyboardState, MidiKeyboardComponent::horizontalKeyboard)	// instantiate on-screen keyboard
+		, startTime(Time::getMillisecondCounterHiRes() * 0.001)	// set start time to current time
     {
         setSize (800, 600);
 
         // specify the number of input and output channels that we want to open
         setAudioChannels (2, 2);
         
-        addAndMakeVisible(ui);
+		// add keytar ui to main component
+        addAndMakeVisible(ui); 
     }
 
     ~MainContentComponent()
@@ -95,6 +100,18 @@ private:
 
     UI ui;
     Keytar instrument;
+
+	// MIDI handler
+	AudioDeviceManager deviceManager;           // used to find enabled MIDI input devices
+	ComboBox midiInputList;                     // combobox to select MIDI input device
+	Label midiInputListLabel;
+	int lastInputIndex;                         // used to deregister last selected device when new one selected
+	bool isAddingFromMidiInput;                 // used to determine if MIDI data is from external source or on-screen mouse clicks
+	MidiKeyboardState keyboardState;            // keeps track of which MIDI keys are currently held down
+	MidiKeyboardComponent keyboardComponent;    // On-screen keyboard component
+	TextEditor midiMessagesBox;
+	double startTime;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainContentComponent)
 };
 
