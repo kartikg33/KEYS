@@ -9,21 +9,18 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "ui/UI.h"
 #include "Keytar.h"
+#include "Keys.h"
 
 //==============================================================================
 /*
     This component lives inside our window, and this is where you should put all
     your controls and content.
 */
-class MainContentComponent   : public AudioAppComponent
+class MainContentComponent		: public AudioAppComponent
 {
 public:
     //==============================================================================
     MainContentComponent()
-		: lastInputIndex(0) // init to 0
-		, isAddingFromMidiInput(false)	// default to receiving data from on-screen keyboard (false)
-		, keyboardComponent(keyboardState, MidiKeyboardComponent::horizontalKeyboard)	// instantiate on-screen keyboard
-		, startTime(Time::getMillisecondCounterHiRes() * 0.001)	// set start time to current time
     {
         setSize (800, 600);
 
@@ -100,17 +97,6 @@ private:
 
     UI ui;
     Keytar instrument;
-
-	// MIDI handler
-	AudioDeviceManager deviceManager;           // used to find enabled MIDI input devices
-	ComboBox midiInputList;                     // combobox to select MIDI input device
-	Label midiInputListLabel;
-	int lastInputIndex;                         // used to deregister last selected device when new one selected
-	bool isAddingFromMidiInput;                 // used to determine if MIDI data is from external source or on-screen mouse clicks
-	MidiKeyboardState keyboardState;            // keeps track of which MIDI keys are currently held down
-	MidiKeyboardComponent keyboardComponent;    // On-screen keyboard component
-	TextEditor midiMessagesBox;
-	double startTime;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainContentComponent)
 };

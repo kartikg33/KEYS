@@ -6,6 +6,8 @@
               cppLanguageStandard="11" companyCopyright="" jucerVersion="5.2.0">
   <MAINGROUP id="PRc9pH" name="KEYS">
     <GROUP id="{11BB1F64-A394-753D-B9E4-A87BE29A8265}" name="Source">
+      <FILE id="gIBxQn" name="Keys.cpp" compile="1" resource="0" file="Source/Keys.cpp"/>
+      <FILE id="SdRIMu" name="Keys.h" compile="0" resource="0" file="Source/Keys.h"/>
       <FILE id="EW96ir" name="Keytar.cpp" compile="1" resource="0" file="Source/Keytar.cpp"/>
       <FILE id="g6964e" name="Keytar.h" compile="0" resource="0" file="Source/Keytar.h"/>
       <FILE id="ta33dy" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
