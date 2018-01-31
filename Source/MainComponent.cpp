@@ -54,6 +54,7 @@ public:
 
         // For more details, see the help for AudioProcessor::prepareToPlay()
 		(void)samplesPerBlockExpected; // unused parameter
+		keys.setCurrentPlaybackSampleRate(sampleRate);
         instrument.setCurrentPlaybackSampleRate(sampleRate);
 		
     }
@@ -76,13 +77,14 @@ public:
         bufferToFill.clearActiveBufferRegion();   
 
 		// retrieve midi messages from buffer and print to screen
-		ScopedPointer<MidiBuffer::Iterator> i = new MidiBuffer::Iterator(keys.midiMessages);
+		MidiBuffer midiMessages; 
+		keys.getNextBlock(midiMessages, bufferToFill.numSamples);
+		ScopedPointer<MidiBuffer::Iterator> i = new MidiBuffer::Iterator(midiMessages);
 		MidiMessage message;
 		int message_position;
 		while (i->getNextEvent(message, message_position))
 		{
 			keys.addMessageToList(message);
-			keys.midiMessages.clear(0, message_position+1);
 		}
 		i = nullptr;
     }
