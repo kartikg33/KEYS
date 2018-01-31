@@ -58,6 +58,14 @@ public:
 
     void processBlock (AudioBuffer<float> &buffer, MidiBuffer &midiMessages)
     {
+		ScopedPointer<MidiBuffer::Iterator> i = new MidiBuffer::Iterator(midiMessages);
+		MidiMessage message;
+		int message_position;
+		while (i->getNextEvent(message, message_position))
+		{
+			keys.addMessageToList(message);
+		}
+		
         instrument.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
     }
     

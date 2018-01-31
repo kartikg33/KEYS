@@ -149,16 +149,6 @@ void MidiKeys::setMidiInput(int index)
 }
 
 //==============================================================================
-void MidiKeys::setMidiOutput(int index)
-{
-	currentMidiOutput = nullptr;
-
-	if (MidiOutput::getDevices()[index].isNotEmpty())
-	{
-		currentMidiOutput = MidiOutput::openDevice(index);
-		jassert(currentMidiOutput);
-	}
-}
 
 void MidiKeys::comboBoxChanged(ComboBox* box) 
 {
@@ -190,9 +180,6 @@ void MidiKeys::handleNoteOff(MidiKeyboardState*, int midiChannel, int midiNoteNu
 
 void MidiKeys::postMessageToList(const MidiMessage& message)
 {
-	if (currentMidiOutput != nullptr)
-		currentMidiOutput->sendMessageNow(message);
-
 	(new IncomingMessageCallback(this, message))->post();
 }
 

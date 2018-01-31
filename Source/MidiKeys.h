@@ -45,6 +45,8 @@ public:
     MidiKeys();
     ~MidiKeys();
 
+	void addMessageToList(const MidiMessage& message);
+
     void paint (Graphics&) override;
     void resized() override;
 
@@ -60,17 +62,15 @@ private:
 	ListBox messageListBox;
 	Array<MidiMessage> midiMessageList;
 	MidiLogListBoxModel midiLogListBoxModel;
-	ScopedPointer<MidiOutput> currentMidiOutput;
 
 	// prototypes
 	void setMidiInput(int index);
-	void setMidiOutput(int index);
 	void comboBoxChanged(ComboBox* box) override;
 	void handleIncomingMidiMessage(MidiInput*, const MidiMessage& message) override;
 	void handleNoteOn(MidiKeyboardState*, int midiChannel, int midiNoteNumber, float velocity) override;
 	void handleNoteOff(MidiKeyboardState*, int midiChannel, int midiNoteNumber, float velocity) override;
 	void postMessageToList(const MidiMessage& message);
-	void addMessageToList(const MidiMessage& message);
+	
 	void handleAsyncUpdate() override;
 
 	// This is used to dispach an incoming message to the message thread
@@ -81,8 +81,11 @@ private:
 
 		void messageCallback() override
 		{
+			/*
 			if (demo != nullptr)
 				demo->addMessageToList(message);
+
+				*/
 		}
 
 		Component::SafePointer<MidiKeys> demo;
