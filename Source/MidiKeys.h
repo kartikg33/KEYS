@@ -45,7 +45,8 @@ public:
     MidiKeys();
     ~MidiKeys();
 
-	void addMessageToList(const MidiMessage& message);
+	MidiBuffer midiMessages;
+	void addMessageToList(const MidiMessage& message); // debug function to see incoming messages
 
     void paint (Graphics&) override;
     void resized() override;
@@ -54,7 +55,7 @@ private:
 	AudioDeviceManager deviceManager;
 	ComboBox midiInputList;
 	Label midiInputListLabel;
-	int lastInputIndex;
+	int lastInputIndex; // used to store previous midi input 
 
 	MidiKeyboardState keyboardState;
 	MidiKeyboardComponent keyboardComponent;
@@ -62,6 +63,8 @@ private:
 	ListBox messageListBox;
 	Array<MidiMessage> midiMessageList;
 	MidiLogListBoxModel midiLogListBoxModel;
+	unsigned long midiMessagesSampleNum;
+	
 
 	// prototypes
 	void setMidiInput(int index);
@@ -69,28 +72,8 @@ private:
 	void handleIncomingMidiMessage(MidiInput*, const MidiMessage& message) override;
 	void handleNoteOn(MidiKeyboardState*, int midiChannel, int midiNoteNumber, float velocity) override;
 	void handleNoteOff(MidiKeyboardState*, int midiChannel, int midiNoteNumber, float velocity) override;
-	void postMessageToList(const MidiMessage& message);
-	
+	void postMessageToBuffer(const MidiMessage& message);
 	void handleAsyncUpdate() override;
-
-	// This is used to dispach an incoming message to the message thread
-	struct IncomingMessageCallback : public CallbackMessage
-	{
-		IncomingMessageCallback(MidiKeys* d, const MidiMessage& m)
-			: demo(d), message(m) {}
-
-		void messageCallback() override
-		{
-			/*
-			if (demo != nullptr)
-				demo->addMessageToList(message);
-
-				*/
-		}
-
-		Component::SafePointer<MidiKeys> demo;
-		MidiMessage message;
-	};
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MidiKeys)
 };

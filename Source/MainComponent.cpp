@@ -58,13 +58,7 @@ public:
 
     void processBlock (AudioBuffer<float> &buffer, MidiBuffer &midiMessages)
     {
-		ScopedPointer<MidiBuffer::Iterator> i = new MidiBuffer::Iterator(midiMessages);
-		MidiMessage message;
-		int message_position;
-		while (i->getNextEvent(message, message_position))
-		{
-			keys.addMessageToList(message);
-		}
+		
 		
         instrument.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
     }
@@ -77,7 +71,17 @@ public:
 
         // Right now we are not producing any data, in which case we need to clear the buffer
         // (to prevent the output of random noise)
-        bufferToFill.clearActiveBufferRegion();    
+        bufferToFill.clearActiveBufferRegion();   
+
+		// retrieve midi messages from buffer and print to screen
+		ScopedPointer<MidiBuffer::Iterator> i = new MidiBuffer::Iterator(keys.midiMessages);
+		MidiMessage message;
+		int message_position;
+		while (i->getNextEvent(message, message_position))
+		{
+			keys.addMessageToList(message);
+			keys.midiMessages.clear(0, message_position+1);
+		}
     }
 
     void releaseResources() override

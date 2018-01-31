@@ -50,6 +50,7 @@ MidiKeys::MidiKeys()
 	: lastInputIndex(0)
 	, keyboardComponent(keyboardState, MidiKeyboardComponent::horizontalKeyboard)
 	, midiLogListBoxModel(midiMessageList)
+	, midiMessagesSampleNum(0)
 {
     // In your constructor, you should add any child components, and
     // initialise any special settings that your component needs.
@@ -158,8 +159,8 @@ void MidiKeys::comboBoxChanged(ComboBox* box)
 // These methods handle callbacks from the midi device + on-screen keyboard..
 void MidiKeys::handleIncomingMidiMessage(MidiInput*, const MidiMessage& message) 
 {
-	keyboardState.processNextMidiEvent(message);
-	postMessageToList(message);
+	keyboardState.processNextMidiEvent(message); // show pressed key on keyboard
+	postMessageToBuffer(message); // add midi message to buffer
 }
 
 void MidiKeys::handleNoteOn(MidiKeyboardState*, int midiChannel, int midiNoteNumber, float velocity) 
@@ -178,9 +179,10 @@ void MidiKeys::handleNoteOff(MidiKeyboardState*, int midiChannel, int midiNoteNu
 	(void)velocity; // unused parameter
 }
 
-void MidiKeys::postMessageToList(const MidiMessage& message)
+void MidiKeys::postMessageToBuffer(const MidiMessage& message)
 {
-	(new IncomingMessageCallback(this, message))->post();
+	midiMessages.addEvent(message, midiMessagesSampleNum);
+	midiMessagesSampleNum++;
 }
 
 void MidiKeys::addMessageToList(const MidiMessage& message)
