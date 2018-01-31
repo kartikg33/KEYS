@@ -175,17 +175,17 @@ void MidiKeys::handleIncomingMidiMessage(MidiInput*, const MidiMessage& message)
 void MidiKeys::handleNoteOn(MidiKeyboardState*, int midiChannel, int midiNoteNumber, float velocity) 
 {
 	// do nothing when keyboard key pressed
-	(void)midiChannel;
-	(void)midiNoteNumber;
-	(void)velocity;
+	(void)midiChannel; // unused parameter
+	(void)midiNoteNumber; // unused parameter
+	(void)velocity; // unused parameter
 }
 
 void MidiKeys::handleNoteOff(MidiKeyboardState*, int midiChannel, int midiNoteNumber, float velocity) 
 {
 	// do nothing when keyboard key pressed
-	(void)midiChannel;
-	(void)midiNoteNumber;
-	(void)velocity;
+	(void)midiChannel; // unused parameter
+	(void)midiNoteNumber; // unused parameter
+	(void)velocity; // unused parameter
 }
 
 void MidiKeys::postMessageToList(const MidiMessage& message)

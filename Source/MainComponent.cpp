@@ -28,11 +28,12 @@ public:
         setAudioChannels (2, 2);
         
 		// add keytar ui to main component
+		ui.setTopLeftPosition(0, 0);
         //addAndMakeVisible(ui); 
 
-		// add demo MIDI ui to main component
+		// add demo MIDI ui to main component	
+		keys.setTopLeftPosition(0, 0);
 		addAndMakeVisible(keys);
-		keys.centreWithSize(getWidth(), getHeight());
     }
 
     ~MainContentComponent()
@@ -50,7 +51,9 @@ public:
         // but be careful - it will be called on the audio thread, not the GUI thread.
 
         // For more details, see the help for AudioProcessor::prepareToPlay()
+		(void)samplesPerBlockExpected; // unused parameter
         instrument.setCurrentPlaybackSampleRate(sampleRate);
+		
     }
 
     void processBlock (AudioBuffer<float> &buffer, MidiBuffer &midiMessages)
