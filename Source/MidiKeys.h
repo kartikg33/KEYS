@@ -50,8 +50,8 @@ public:
 
 private:
 	AudioDeviceManager deviceManager;
-	ComboBox midiInputList, midiOutputList;
-	Label midiInputListLabel, midiOutputListLabel;
+	ComboBox midiInputList;
+	Label midiInputListLabel;
 	int lastInputIndex;
 
 	MidiKeyboardState keyboardState;

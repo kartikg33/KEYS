@@ -81,19 +81,11 @@ MidiKeys::MidiKeys()
 		setMidiInput(0);
 
 
-	// MIDI Outputs
-	addAndMakeVisible(midiOutputListLabel);
-	midiOutputListLabel.setText("MIDI Output:", dontSendNotification);
-	midiOutputListLabel.attachToComponent(&midiOutputList, true);
-
-	addAndMakeVisible(midiOutputList);
-	midiOutputList.setTextWhenNoChoicesAvailable("No MIDI Output Enabled");
-	midiOutputList.addItemList(MidiOutput::getDevices(), 1);
-	midiOutputList.addListener(this);
-
+	// show keyboard
 	addAndMakeVisible(keyboardComponent);
 	keyboardState.addListener(this);
 
+	// show midi messages box
 	addAndMakeVisible(messageListBox);
 	messageListBox.setModel(&midiLogListBoxModel);
 }
@@ -132,7 +124,6 @@ void MidiKeys::resized()
     // components that your component contains..
 	Rectangle<int> area(getLocalBounds());
 	midiInputList.setBounds(area.removeFromTop(36).removeFromRight(getWidth() - 150).reduced(8));
-	midiOutputList.setBounds(area.removeFromTop(36).removeFromRight(getWidth() - 150).reduced(8));
 	keyboardComponent.setBounds(area.removeFromTop(80).reduced(8));
 	messageListBox.setBounds(area.reduced(8));
 }
@@ -172,7 +163,6 @@ void MidiKeys::setMidiOutput(int index)
 void MidiKeys::comboBoxChanged(ComboBox* box) 
 {
 	if (box == &midiInputList)    setMidiInput(midiInputList.getSelectedItemIndex());
-	if (box == &midiOutputList)   setMidiOutput(midiOutputList.getSelectedItemIndex());
 }
 
 // These methods handle callbacks from the midi device + on-screen keyboard..
@@ -184,12 +174,18 @@ void MidiKeys::handleIncomingMidiMessage(MidiInput*, const MidiMessage& message)
 
 void MidiKeys::handleNoteOn(MidiKeyboardState*, int midiChannel, int midiNoteNumber, float velocity) 
 {
-
+	// do nothing when keyboard key pressed
+	(void)midiChannel;
+	(void)midiNoteNumber;
+	(void)velocity;
 }
 
 void MidiKeys::handleNoteOff(MidiKeyboardState*, int midiChannel, int midiNoteNumber, float velocity) 
 {
-
+	// do nothing when keyboard key pressed
+	(void)midiChannel;
+	(void)midiNoteNumber;
+	(void)velocity;
 }
 
 void MidiKeys::postMessageToList(const MidiMessage& message)

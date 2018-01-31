@@ -91,6 +91,8 @@ public:
         // This is called when the MainContentComponent is resized.
         // If you add any child components, this is where you should
         // update their positions.
+		ui.centreWithSize(getWidth(), getHeight());
+		keys.centreWithSize(getWidth(), getHeight());
     }
 
 
