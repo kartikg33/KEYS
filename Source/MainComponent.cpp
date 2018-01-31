@@ -34,6 +34,8 @@ public:
 		// add demo MIDI ui to main component	
 		keys.setTopLeftPosition(0, 0);
 		addAndMakeVisible(keys);
+
+		instrument.setup();
     }
 
     ~MainContentComponent()
@@ -82,6 +84,7 @@ public:
 			keys.addMessageToList(message);
 			keys.midiMessages.clear(0, message_position+1);
 		}
+		i = nullptr;
     }
 
     void releaseResources() override

@@ -34,9 +34,9 @@ void Keytar::setup()
     audioFormatManager.registerBasicFormats();
 
     // now that we have our manager, lets read a simple file so we can pass it to our SamplerSound object.
-    File* file = new File("file.wav");
     ScopedPointer<AudioFormatReader> reader = audioFormatManager.createReaderFor(*file);
 
+	File* file = new File(File::getCurrentWorkingDirectory().getChildFile("../../Samples/Smooth Piano 1.wav"));
     // allow our sound to be played on all notes
     BigInteger allNotes;
     allNotes.setRange(0, 128, true);
