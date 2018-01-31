@@ -48,7 +48,6 @@ void MidiLogListBoxModel::paintListBoxItem(int row, Graphics& g, int width, int 
 
 MidiKeys::MidiKeys()
 	: lastInputIndex(0)
-	, isAddingFromMidiInput(false)
 	, keyboardComponent(keyboardState, MidiKeyboardComponent::horizontalKeyboard)
 	, midiLogListBoxModel(midiMessageList)
 {
@@ -179,29 +178,18 @@ void MidiKeys::comboBoxChanged(ComboBox* box)
 // These methods handle callbacks from the midi device + on-screen keyboard..
 void MidiKeys::handleIncomingMidiMessage(MidiInput*, const MidiMessage& message) 
 {
-	const ScopedValueSetter<bool> scopedInputFlag(isAddingFromMidiInput, true);
 	keyboardState.processNextMidiEvent(message);
 	postMessageToList(message);
 }
 
 void MidiKeys::handleNoteOn(MidiKeyboardState*, int midiChannel, int midiNoteNumber, float velocity) 
 {
-	if (!isAddingFromMidiInput)
-	{
-		MidiMessage m(MidiMessage::noteOn(midiChannel, midiNoteNumber, velocity));
-		m.setTimeStamp(Time::getMillisecondCounterHiRes() * 0.001);
-		postMessageToList(m);
-	}
+
 }
 
 void MidiKeys::handleNoteOff(MidiKeyboardState*, int midiChannel, int midiNoteNumber, float velocity) 
 {
-	if (!isAddingFromMidiInput)
-	{
-		MidiMessage m(MidiMessage::noteOff(midiChannel, midiNoteNumber, velocity));
-		m.setTimeStamp(Time::getMillisecondCounterHiRes() * 0.001);
-		postMessageToList(m);
-	}
+
 }
 
 void MidiKeys::postMessageToList(const MidiMessage& message)

@@ -53,7 +53,6 @@ private:
 	ComboBox midiInputList, midiOutputList;
 	Label midiInputListLabel, midiOutputListLabel;
 	int lastInputIndex;
-	bool isAddingFromMidiInput;
 
 	MidiKeyboardState keyboardState;
 	MidiKeyboardComponent keyboardComponent;
