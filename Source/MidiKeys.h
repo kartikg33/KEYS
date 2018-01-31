@@ -37,16 +37,17 @@ private:
 
 class MidiKeys	: public Component
 				, private ComboBox::Listener
-				, private MidiInputCallback
-				, private MidiKeyboardStateListener
+				, private MidiMessageCollector
 				, private AsyncUpdater
 {
 public:
     MidiKeys();
     ~MidiKeys();
 
-	MidiBuffer midiMessages;
+	void setCurrentPlaybackSampleRate(double sampleRate) { MidiMessageCollector::reset(sampleRate); } // set up midi message collector
+
 	void addMessageToList(const MidiMessage& message); // debug function to see incoming messages
+	void getNextBlock(MidiBuffer& midiMessages, int numSamples) { MidiMessageCollector::removeNextBlockOfMessages(midiMessages, numSamples); }
 
     void paint (Graphics&) override;
     void resized() override;
@@ -63,7 +64,6 @@ private:
 	ListBox messageListBox;
 	Array<MidiMessage> midiMessageList;
 	MidiLogListBoxModel midiLogListBoxModel;
-	unsigned long midiMessagesSampleNum;
 	
 
 	// prototypes
@@ -72,7 +72,6 @@ private:
 	void handleIncomingMidiMessage(MidiInput*, const MidiMessage& message) override;
 	void handleNoteOn(MidiKeyboardState*, int midiChannel, int midiNoteNumber, float velocity) override;
 	void handleNoteOff(MidiKeyboardState*, int midiChannel, int midiNoteNumber, float velocity) override;
-	void postMessageToBuffer(const MidiMessage& message);
 	void handleAsyncUpdate() override;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MidiKeys)
