@@ -65,7 +65,8 @@ KeytarSynth::~KeytarSynth()
     //[/Destructor_pre]
 
     slider = nullptr;
-
+	waveform_L = nullptr;
+	waveform_R = nullptr;
 
     //[Destructor]. You can add your own custom destruction code here..
     //[/Destructor]
@@ -115,26 +116,29 @@ void KeytarSynth::paint (Graphics& g)
 	}
 
     //[UserPaint] Add your own custom painting code here..
-	// don't paint the background as this component will be overlayed on the maincomponent!
 	const int centreY = getHeight() / 2;
 
 	Path wavePathL;
 	Path wavePathR;
-	wavePathL.startNewSubPath(0, centreY);
-	wavePathR.startNewSubPath(0, centreY);
+	wavePathL.startNewSubPath(0, (float)centreY);
+	wavePathR.startNewSubPath(0, (float)centreY);
 
 	// only paint waveforms if arrays exist
 	if (waveform_L != nullptr && waveform_R != nullptr) {
 		float incr = (getWidth() / float(waveform_length - 1));
 		float i = 0.0f;
 		for (int x = 0; x < waveform_length; x++) {
-			wavePathL.lineTo(i, centreY + int(waveform_L[x] * (centreY / 2)));
-			wavePathR.lineTo(i, centreY + int(waveform_R[x] * (centreY / 2)));
+			wavePathL.lineTo(i, (float)centreY + (waveform_L[x] * ((float)centreY / 2.0f)));
+			wavePathR.lineTo(i, (float)centreY + (waveform_R[x] * ((float)centreY / 2.0f)));
 			i += incr;
+
+			// debug text
+			String text(waveform_L[x]);
+			g.drawText(text, 16, 80, 108, 20,
+				Justification::centredLeft, true);
 		}
 	}
 
-    
 	g.setColour(Colours::steelblue);
 	g.setOpacity(0.5f);
 	g.strokePath(wavePathR, PathStrokeType(3.0f));

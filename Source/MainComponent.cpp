@@ -16,6 +16,7 @@
     your controls and content.
 */
 class MainContentComponent		: public AudioAppComponent
+								, private Timer
 {
 public:
     //==============================================================================
@@ -32,6 +33,9 @@ public:
 		
 		// load synth
 		keytar.setup();
+
+		// use a timer to keep repainting this component
+		startTimerHz(44100); 
     }
 
     ~MainContentComponent()
@@ -78,7 +82,13 @@ public:
         g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));
 
         // You can add your drawing code here!
+		keytar.paint(g);
     }
+
+	void timerCallback() override
+	{
+		repaint();
+	}
 
     void resized() override
     {
@@ -86,6 +96,7 @@ public:
         // If you add any child components, this is where you should
         // update their positions.
 		keytar.centreWithSize(getWidth(), getHeight());
+		keytar.resized();
     }
 
 
