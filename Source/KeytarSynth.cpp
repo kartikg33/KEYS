@@ -34,7 +34,7 @@ KeytarSynth::KeytarSynth ()
     //[/Constructor_pre]
 
     addAndMakeVisible (sldrVolume = new Slider ("Volume"));
-    sldrVolume->setRange (0, 100, 1);
+    sldrVolume->setRange (0.1, 10, 0.1);
     sldrVolume->setSliderStyle (Slider::Rotary);
     sldrVolume->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
     sldrVolume->setColour (Slider::backgroundColourId, Colour (0xffbe2a30));
@@ -176,7 +176,7 @@ void KeytarSynth::sliderValueChanged (Slider* sliderThatWasMoved)
     if (sliderThatWasMoved == sldrVolume)
     {
         //[UserSliderCode_sldrVolume] -- add your slider handling code here..
-		volume = (double)(sldrVolume->getValue()/10); // max gain setting is 100/10 = 10
+		volume = (double)(sldrVolume->getValue()); // set to value of volume slider
         //[/UserSliderCode_sldrVolume]
     }
 
@@ -332,9 +332,10 @@ BEGIN_JUCER_METADATA
   <SLIDER name="Volume" id="f301e62471c2d990" memberName="sldrVolume" virtualName=""
           explicitFocusOrder="0" pos="816 16 152 112" bkgcol="ffbe2a30"
           thumbcol="ff00ffff" trackcol="ff00ffff" rotarysliderfill="ff00ffff"
-          rotaryslideroutline="ff5f9ea0" min="0" max="100" int="1" style="Rotary"
-          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="1" needsCallback="1"/>
+          rotaryslideroutline="ff5f9ea0" min="0.10000000000000000555" max="10"
+          int="0.10000000000000000555" style="Rotary" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"
+          needsCallback="1"/>
   <TEXTBUTTON name="btnMIDISettings" id="531f0b272053244d" memberName="btnMIDISettings"
               virtualName="" explicitFocusOrder="0" pos="8 472 136 48" bgColOff="ff2c3b3c"
               textCol="ff7fffd4" textColOn="ff00ffff" buttonText="MIDI Settings"
