@@ -22,6 +22,7 @@
 
 #include "KeytarSynth.h"
 
+
 //[MiscUserDefs] You can add your own user definitions and misc code here...
 #define MAX_VOICES 16
 //[/MiscUserDefs]
@@ -32,16 +33,24 @@ KeytarSynth::KeytarSynth ()
     //[Constructor_pre] You can add your own custom stuff here..
     //[/Constructor_pre]
 
-    addAndMakeVisible (slider = new Slider ("sldr_Volume"));
-    slider->setRange (0, 100, 1);
-    slider->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
-    slider->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-    slider->setColour (Slider::backgroundColourId, Colour (0xffbe2a30));
-    slider->setColour (Slider::thumbColourId, Colour (0xffc6c38a));
-    slider->setColour (Slider::trackColourId, Colour (0xffc6c38a));
-    slider->setColour (Slider::rotarySliderFillColourId, Colour (0xff4ca0df));
-    slider->setColour (Slider::rotarySliderOutlineColourId, Colour (0xff0a2732));
-    slider->addListener (this);
+    addAndMakeVisible (sldrVolume = new Slider ("Volume"));
+    sldrVolume->setRange (0, 100, 1);
+    sldrVolume->setSliderStyle (Slider::Rotary);
+    sldrVolume->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    sldrVolume->setColour (Slider::backgroundColourId, Colour (0xffbe2a30));
+    sldrVolume->setColour (Slider::thumbColourId, Colours::aqua);
+    sldrVolume->setColour (Slider::trackColourId, Colours::aqua);
+    sldrVolume->setColour (Slider::rotarySliderFillColourId, Colours::aqua);
+    sldrVolume->setColour (Slider::rotarySliderOutlineColourId, Colours::cadetblue);
+    sldrVolume->addListener (this);
+
+    addAndMakeVisible (btnMIDISettings = new TextButton ("btnMIDISettings"));
+    btnMIDISettings->setButtonText (TRANS("MIDI Settings"));
+    btnMIDISettings->setConnectedEdges (Button::ConnectedOnBottom);
+    btnMIDISettings->addListener (this);
+    btnMIDISettings->setColour (TextButton::buttonColourId, Colour (0xff2c3b3c));
+    btnMIDISettings->setColour (TextButton::textColourOffId, Colours::aquamarine);
+    btnMIDISettings->setColour (TextButton::textColourOnId, Colours::aqua);
 
 
     //[UserPreSize]
@@ -52,7 +61,7 @@ KeytarSynth::KeytarSynth ()
 
 
     //[Constructor] You can add your own custom stuff here..
-	// add MIDI keys ui to main component	
+	// add MIDI keys ui to main component
 	keys.setTopLeftPosition(0, 0);
 	//addAndMakeVisible(keys);
     //[/Constructor]
@@ -61,12 +70,14 @@ KeytarSynth::KeytarSynth ()
 KeytarSynth::~KeytarSynth()
 {
     //[Destructor_pre]. You can add your own custom destruction code here..
-    //[/Destructor_pre]
-
-    slider = nullptr;
 	waveform_L = nullptr;
 	waveform_R = nullptr;
 	delete file;
+    //[/Destructor_pre]
+
+    sldrVolume = nullptr;
+    btnMIDISettings = nullptr;
+
 
     //[Destructor]. You can add your own custom destruction code here..
     //[/Destructor]
@@ -78,42 +89,43 @@ void KeytarSynth::paint (Graphics& g)
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]
 
-    g.fillAll (Colour (0xff323e44));
-	{
-		int x = 12, y = 12, width = 108, height = 52;
-		String text(TRANS("KEYS"));
-		Colour fillColour = Colour(0xff4ca0df);
-		//[UserPaintCustomArguments] Customize the painting arguments here..
-		//[/UserPaintCustomArguments]
-		g.setColour(fillColour);
-		g.setFont(Font(49.60f, Font::plain).withTypefaceStyle("Regular"));
-		g.drawText(text, x, y, width, height,
-			Justification::centredLeft, true);
-	}
+    g.fillAll (Colour (0xff282529));
 
-	{
-		int x = 16, y = 60, width = 108, height = 20;
-		String text(TRANS("Kartik Gohil"));
-		Colour fillColour = Colour(0xffb1d9f7);
-		//[UserPaintCustomArguments] Customize the painting arguments here..
-		//[/UserPaintCustomArguments]
-		g.setColour(fillColour);
-		g.setFont(Font(15.00f, Font::plain).withTypefaceStyle("Regular"));
-		g.drawText(text, x, y, width, height,
-			Justification::centredLeft, true);
-	}
+    {
+        int x = 4, y = -4, width = 108, height = 52;
+        String text (TRANS("KEYS"));
+        Colour fillColour = Colours::aqua;
+        //[UserPaintCustomArguments] Customize the painting arguments here..
+        //[/UserPaintCustomArguments]
+        g.setColour (fillColour);
+        g.setFont (Font (49.60f, Font::plain).withTypefaceStyle ("Regular"));
+        g.drawText (text, x, y, width, height,
+                    Justification::centredLeft, true);
+    }
 
-	{
-		int x = 20, y = 396, width = 108, height = 30;
-		String text(TRANS("Volume"));
-		Colour fillColour = Colour(0xffc6c38a);
-		//[UserPaintCustomArguments] Customize the painting arguments here..
-		//[/UserPaintCustomArguments]
-		g.setColour(fillColour);
-		g.setFont(Font(20.20f, Font::plain).withTypefaceStyle("Regular"));
-		g.drawText(text, x, y, width, height,
-			Justification::centred, true);
-	}
+    {
+        int x = 8, y = 44, width = 112, height = 20;
+        String text (TRANS("Kartik Gohil"));
+        Colour fillColour = Colours::cadetblue;
+        //[UserPaintCustomArguments] Customize the painting arguments here..
+        //[/UserPaintCustomArguments]
+        g.setColour (fillColour);
+        g.setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
+        g.drawText (text, x, y, width, height,
+                    Justification::centredLeft, true);
+    }
+
+    {
+        int x = 832, y = -4, width = 120, height = 30;
+        String text (TRANS("Volume"));
+        Colour fillColour = Colours::aqua;
+        //[UserPaintCustomArguments] Customize the painting arguments here..
+        //[/UserPaintCustomArguments]
+        g.setColour (fillColour);
+        g.setFont (Font (20.20f, Font::plain).withTypefaceStyle ("Regular"));
+        g.drawText (text, x, y, width, height,
+                    Justification::centred, true);
+    }
 
     //[UserPaint] Add your own custom painting code here..
 	const int centreY = getHeight() / 2;
@@ -149,7 +161,8 @@ void KeytarSynth::resized()
     //[UserPreResize] Add your own custom resize code here..
     //[/UserPreResize]
 
-    slider->setBounds (8, 304, 136, 96);
+    sldrVolume->setBounds (816, 16, 152, 112);
+    btnMIDISettings->setBounds (8, 472, 136, 48);
     //[UserResized] Add your own custom resize handling here..
 	keys.centreWithSize(getWidth(), getHeight());
     //[/UserResized]
@@ -160,15 +173,30 @@ void KeytarSynth::sliderValueChanged (Slider* sliderThatWasMoved)
     //[UsersliderValueChanged_Pre]
     //[/UsersliderValueChanged_Pre]
 
-    if (sliderThatWasMoved == slider)
+    if (sliderThatWasMoved == sldrVolume)
     {
-        //[UserSliderCode_slider] -- add your slider handling code here..
-		volume = (double)(slider->getValue()/10); // max gain setting is 100/10 = 10
-        //[/UserSliderCode_slider]
+        //[UserSliderCode_sldrVolume] -- add your slider handling code here..
+		volume = (double)(sldrVolume->getValue()/10); // max gain setting is 100/10 = 10
+        //[/UserSliderCode_sldrVolume]
     }
 
     //[UsersliderValueChanged_Post]
     //[/UsersliderValueChanged_Post]
+}
+
+void KeytarSynth::buttonClicked (Button* buttonThatWasClicked)
+{
+    //[UserbuttonClicked_Pre]
+    //[/UserbuttonClicked_Pre]
+
+    if (buttonThatWasClicked == btnMIDISettings)
+    {
+        //[UserButtonCode_btnMIDISettings] -- add your button handler code here..
+        //[/UserButtonCode_btnMIDISettings]
+    }
+
+    //[UserbuttonClicked_Post]
+    //[/UserbuttonClicked_Post]
 }
 
 
@@ -190,11 +218,11 @@ void KeytarSynth::setup()
 	file = new File(File::getCurrentWorkingDirectory().getChildFile("../../Samples/Bass and Snares/sd1.wav"));
 	//file = new File(File::getCurrentWorkingDirectory().getChildFile("../../Samples/Smooth Piano 1.wav"));
 	ScopedPointer<AudioFormatReader> reader = audioFormatManager.createReaderFor(*file);
-	
+
 	// set up our AudioFormatReader to read in an audio sample
 	WavAudioFormat wavFormat;
 	//ScopedPointer<AudioFormatReader> audioReader(wavFormat.createReaderFor(new MemoryInputStream(BinaryData::cello_wav, BinaryData::cello_wavSize, false), true));
-	
+
 	// allow our sound to be played on all notes
 	BigInteger allNotes;
 	allNotes.setRange(0, 128, true);
@@ -212,24 +240,24 @@ void KeytarSynth::setup()
 
 }
 
-void KeytarSynth::prepareToPlay(int samplesPerBlockExpected, double sampleRate) 
+void KeytarSynth::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
 {
 	keys.setCurrentPlaybackSampleRate(sampleRate);
 	synth.setCurrentPlaybackSampleRate(sampleRate);
 
 	// set up waveform arrays for graphics
-	waveform_length = samplesPerBlockExpected; // samples per block * number of blocks to display // TODO: use sampleRate to come up with a nice number	
+	waveform_length = samplesPerBlockExpected; // samples per block * number of blocks to display // TODO: use sampleRate to come up with a nice number
 
 	if (waveform_L != nullptr && waveform_R != nullptr)
 	{
 		waveform_L = nullptr;
 		waveform_R = nullptr;
-	}		
+	}
 	waveform_L = new float[waveform_length];
 	waveform_R = new float[waveform_length];
 }
 
-void KeytarSynth::getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill) 
+void KeytarSynth::getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill)
 {
 	// the synth always adds its output to the audio buffer, so we have to clear it
 	// first..
@@ -268,7 +296,7 @@ void KeytarSynth::getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill)
 	i = nullptr;
 }
 
-void KeytarSynth::releaseResources() 
+void KeytarSynth::releaseResources()
 {
 	waveform_L = nullptr;
 	waveform_R = nullptr;
@@ -290,23 +318,27 @@ BEGIN_JUCER_METADATA
                  parentClasses="public Component, public AudioSource" constructorParams=""
                  variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
                  overlayOpacity="0.330" fixedSize="0" initialWidth="800" initialHeight="480">
-  <BACKGROUND backgroundColour="ff323e44">
-    <TEXT pos="12 12 108 52" fill="solid: ff4ca0df" hasStroke="0" text="KEYS"
+  <BACKGROUND backgroundColour="ff282529">
+    <TEXT pos="4 -4 108 52" fill="solid: ff00ffff" hasStroke="0" text="KEYS"
           fontname="Default font" fontsize="49.600000000000001421" kerning="0"
           bold="0" italic="0" justification="33"/>
-    <TEXT pos="16 60 108 20" fill="solid: ffb1d9f7" hasStroke="0" text="Kartik Gohil"
+    <TEXT pos="8 44 112 20" fill="solid: ff5f9ea0" hasStroke="0" text="Kartik Gohil"
           fontname="Default font" fontsize="15" kerning="0" bold="0" italic="0"
           justification="33"/>
-    <TEXT pos="20 396 108 30" fill="solid: ffc6c38a" hasStroke="0" text="Volume"
+    <TEXT pos="832 -4 120 30" fill="solid: ff00ffff" hasStroke="0" text="Volume"
           fontname="Default font" fontsize="20.199999999999999289" kerning="0"
           bold="0" italic="0" justification="36"/>
   </BACKGROUND>
-  <SLIDER name="sldr_Volume" id="f301e62471c2d990" memberName="slider"
-          virtualName="" explicitFocusOrder="0" pos="8 304 136 96" bkgcol="ffbe2a30"
-          thumbcol="ffc6c38a" trackcol="ffc6c38a" rotarysliderfill="ff4ca0df"
-          rotaryslideroutline="ff0a2732" min="0" max="100" int="1" style="RotaryHorizontalVerticalDrag"
+  <SLIDER name="Volume" id="f301e62471c2d990" memberName="sldrVolume" virtualName=""
+          explicitFocusOrder="0" pos="816 16 152 112" bkgcol="ffbe2a30"
+          thumbcol="ff00ffff" trackcol="ff00ffff" rotarysliderfill="ff00ffff"
+          rotaryslideroutline="ff5f9ea0" min="0" max="100" int="1" style="Rotary"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
           textBoxHeight="20" skewFactor="1" needsCallback="1"/>
+  <TEXTBUTTON name="btnMIDISettings" id="531f0b272053244d" memberName="btnMIDISettings"
+              virtualName="" explicitFocusOrder="0" pos="8 472 136 48" bgColOff="ff2c3b3c"
+              textCol="ff7fffd4" textColOn="ff00ffff" buttonText="MIDI Settings"
+              connectedEdges="8" needsCallback="1" radioGroupId="0"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

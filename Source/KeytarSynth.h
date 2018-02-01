@@ -36,7 +36,8 @@
 */
 class KeytarSynth  : public Component,
                      public AudioSource,
-                     public Slider::Listener
+                     public Slider::Listener,
+                     public Button::Listener
 {
 public:
     //==============================================================================
@@ -69,6 +70,7 @@ public:
     void paint (Graphics& g) override;
     void resized() override;
     void sliderValueChanged (Slider* sliderThatWasMoved) override;
+    void buttonClicked (Button* buttonThatWasClicked) override;
 
 
 
@@ -77,12 +79,12 @@ private:
 	MidiKeys keys; // manager object for keyboard midi device
 	AudioFormatManager audioFormatManager; // manager object that finds an appropriate way to decode various audio files.  Used with SampleSound objects.
 	File* file; // used to read audio files
-	Synthesiser synth; 
+	Synthesiser synth;
 
 	// controls
 	double volume = 0.5; // set to half volume
 
-	// graphics 
+	// graphics
 	ScopedPointer<float> waveform_L = nullptr; // circular buffers of audio samples
 	ScopedPointer<float> waveform_R = nullptr; // circular buffers of audio samples
 	int waveform_length = 0;
@@ -90,7 +92,8 @@ private:
     //[/UserVariables]
 
     //==============================================================================
-    ScopedPointer<Slider> slider;
+    ScopedPointer<Slider> sldrVolume;
+    ScopedPointer<TextButton> btnMIDISettings;
 
 
     //==============================================================================
