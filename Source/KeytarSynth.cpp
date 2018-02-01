@@ -164,12 +164,25 @@ void KeytarSynth::setup()
 	// now that we have our manager, lets read a simple file so we can pass it to our SamplerSound object.
 	File* file = new File(File::getCurrentWorkingDirectory().getChildFile("../../Samples/Smooth Piano 1.wav"));
 	ScopedPointer<AudioFormatReader> reader = audioFormatManager.createReaderFor(*file);
+	
+	// set up our AudioFormatReader to read in an audio sample
+	WavAudioFormat wavFormat;
+	//ScopedPointer<AudioFormatReader> audioReader(wavFormat.createReaderFor(new MemoryInputStream(BinaryData::cello_wav, BinaryData::cello_wavSize, false), true));
+	
 	// allow our sound to be played on all notes
 	BigInteger allNotes;
 	allNotes.setRange(0, 128, true);
 
 	// finally, add our sound
-	synth.addSound(new SamplerSound("default", *reader, allNotes, 60, 0, 10, 10.0));
+	synth.clearSounds();
+	synth.addSound(new SamplerSound("demo sound",
+									*reader,
+									allNotes,
+									74,   // root midi note
+									0.1,  // attack time
+									0.1,  // release time
+									10.0  // maximum sample length
+									));
 
 }
 
