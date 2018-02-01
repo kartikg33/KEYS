@@ -149,7 +149,6 @@
   <ItemGroup>
     <ClCompile Include="..\..\Source\KeytarSynth.cpp"/>
     <ClCompile Include="..\..\Source\MidiKeys.cpp"/>
-    <ClCompile Include="..\..\Source\Keytar.cpp"/>
     <ClCompile Include="..\..\Source\Main.cpp"/>
     <ClCompile Include="..\..\Source\MainComponent.cpp"/>
     <ClCompile Include="..\..\..\..\..\..\..\..\JUCE\modules\juce_audio_basics\buffers\juce_AudioChannelSet.cpp">
@@ -1775,7 +1774,6 @@
   <ItemGroup>
     <ClInclude Include="..\..\Source\KeytarSynth.h"/>
     <ClInclude Include="..\..\Source\MidiKeys.h"/>
-    <ClInclude Include="..\..\Source\Keytar.h"/>
     <ClInclude Include="..\..\..\..\..\..\..\..\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h"/>
     <ClInclude Include="..\..\..\..\..\..\..\..\JUCE\modules\juce_audio_basics\buffers\juce_AudioChannelSet.h"/>
     <ClInclude Include="..\..\..\..\..\..\..\..\JUCE\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h"/>

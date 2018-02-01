@@ -379,9 +379,6 @@
     <ClCompile Include="..\..\Source\MidiKeys.cpp">
       <Filter>KEYS\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Keytar.cpp">
-      <Filter>KEYS\Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Main.cpp">
       <Filter>KEYS\Source</Filter>
     </ClCompile>
@@ -2158,9 +2155,6 @@
       <Filter>KEYS\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\MidiKeys.h">
-      <Filter>KEYS\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Keytar.h">
       <Filter>KEYS\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\..\..\..\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h">

@@ -10,8 +10,6 @@
       <FILE id="s3YMY9" name="KeytarSynth.h" compile="0" resource="0" file="Source/KeytarSynth.h"/>
       <FILE id="gIBxQn" name="MidiKeys.cpp" compile="1" resource="0" file="Source/MidiKeys.cpp"/>
       <FILE id="SdRIMu" name="MidiKeys.h" compile="0" resource="0" file="Source/MidiKeys.h"/>
-      <FILE id="EW96ir" name="Keytar.cpp" compile="1" resource="0" file="Source/Keytar.cpp"/>
-      <FILE id="g6964e" name="Keytar.h" compile="0" resource="0" file="Source/Keytar.h"/>
       <FILE id="ta33dy" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
       <FILE id="vU4A6r" name="MainComponent.cpp" compile="1" resource="0"
             file="Source/MainComponent.cpp"/>
