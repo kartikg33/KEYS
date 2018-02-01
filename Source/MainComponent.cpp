@@ -35,7 +35,7 @@ public:
 		keytar.setup();
 
 		// use a timer to keep repainting this component
-		startTimerHz(300); 
+		startTimerHz(1000); // will be painted 100 times a second 
     }
 
     ~MainContentComponent()

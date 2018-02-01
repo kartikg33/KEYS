@@ -132,11 +132,6 @@ void KeytarSynth::paint (Graphics& g)
 			wavePathL.lineTo(i, (float)centreY + (waveform_L[x] * ((float)centreY / 2.0f)));
 			wavePathR.lineTo(i, (float)centreY + (waveform_R[x] * ((float)centreY / 2.0f)));
 			i += incr;
-
-			// debug text
-			String text(waveform_L[x]);
-			g.drawText(text, 16, 80, 108, 20,
-				Justification::centredLeft, true);
 		}
 	}
 
@@ -182,7 +177,6 @@ void KeytarSynth::sliderValueChanged (Slider* sliderThatWasMoved)
 
 void KeytarSynth::setup()
 {
-
 	// add voices to our sampler
 	for (int i = 0; i < MAX_VOICES; i++) {
 		synth.addVoice(new SamplerVoice());
@@ -194,6 +188,7 @@ void KeytarSynth::setup()
 
 	// now that we have our manager, lets read a simple file so we can pass it to our SamplerSound object.
 	file = new File(File::getCurrentWorkingDirectory().getChildFile("../../Samples/Bass and Snares/sd1.wav"));
+	//file = new File(File::getCurrentWorkingDirectory().getChildFile("../../Samples/Smooth Piano 1.wav"));
 	ScopedPointer<AudioFormatReader> reader = audioFormatManager.createReaderFor(*file);
 	
 	// set up our AudioFormatReader to read in an audio sample
@@ -223,7 +218,7 @@ void KeytarSynth::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
 	synth.setCurrentPlaybackSampleRate(sampleRate);
 
 	// set up waveform arrays for graphics
-	waveform_length = 1000; // samples per block * number of blocks to display // TODO: use sampleRate to come up with a nice number	
+	waveform_length = samplesPerBlockExpected; // samples per block * number of blocks to display // TODO: use sampleRate to come up with a nice number	
 
 	if (waveform_L != nullptr && waveform_R != nullptr)
 	{
@@ -250,19 +245,15 @@ void KeytarSynth::getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill)
 	// save a copy of the buffer waveform for printing
 	if (waveform_L != nullptr && waveform_R != nullptr)
 	{
-		int index = waveform_pointer;
-		for (int sample = 0; sample < bufferToFill.numSamples; sample++)
+		for (int sample = 0; sample < bufferToFill.numSamples; sample+= 10) // take every 10th sample as we don't need that level of detail (printed resolution is 4410Hz)
 		{
-			index = waveform_pointer + sample; // add buffer samples to next block in array
-			if (index >= waveform_length)
-				index -= waveform_length;
-			waveform_L[index] = bufferToFill.buffer->getSample(0, sample);
-			waveform_R[index] = bufferToFill.buffer->getSample(1, sample);
+			waveform_pointer++; // add buffer sample to next element in array
+			if (waveform_pointer >= waveform_length)
+				waveform_pointer = 0;
+			waveform_L[waveform_pointer] = bufferToFill.buffer->getSample(0, sample);
+			waveform_R[waveform_pointer] = bufferToFill.buffer->getSample(1, sample);
 		}
-
-		waveform_pointer = index + 1; // increment pointer to next available element in array
-		if (waveform_pointer >= waveform_length)
-			waveform_pointer = 0;
+		// do not update waveform pointer as it will be incremented in the next loop
 	}
 
 	// print midi messages to screen
