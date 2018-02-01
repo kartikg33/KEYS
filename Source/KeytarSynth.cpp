@@ -227,9 +227,9 @@ void KeytarSynth::releaseResources()
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="KeytarSynth" componentName=""
-                 parentClasses="public Component" constructorParams="" variableInitialisers=""
-                 snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330"
-                 fixedSize="0" initialWidth="800" initialHeight="480">
+                 parentClasses="public Component, public AudioSource" constructorParams=""
+                 variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
+                 overlayOpacity="0.330" fixedSize="0" initialWidth="800" initialHeight="480">
   <BACKGROUND backgroundColour="ff323e44">
     <TEXT pos="12 12 108 52" fill="solid: ff4ca0df" hasStroke="0" text="KEYS"
           fontname="Default font" fontsize="49.600000000000001421" kerning="0"

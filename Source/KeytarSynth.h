@@ -34,9 +34,9 @@
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class KeytarSynth	: public Component
-					, public AudioSource
-					, public Slider::Listener
+class KeytarSynth  : public Component,
+                     public AudioSource,
+                     public Slider::Listener
 {
 public:
     //==============================================================================
