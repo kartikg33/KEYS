@@ -55,7 +55,7 @@ KeytarSynth::KeytarSynth ()
     //[Constructor] You can add your own custom stuff here..
 	// add MIDI keys ui to main component	
 	keys.setTopLeftPosition(0, 0);
-	//addAndMakeVisible(keys);
+	addAndMakeVisible(keys);
     //[/Constructor]
 }
 
@@ -162,7 +162,7 @@ void KeytarSynth::setup()
 	audioFormatManager.registerBasicFormats();
 
 	// now that we have our manager, lets read a simple file so we can pass it to our SamplerSound object.
-	File* file = new File(File::getCurrentWorkingDirectory().getChildFile("../../Samples/Smooth Piano 1.wav"));
+	File* file = new File(File::getCurrentWorkingDirectory().getChildFile("../../Samples/Bass and Snares/sd1.wav"));
 	ScopedPointer<AudioFormatReader> reader = audioFormatManager.createReaderFor(*file);
 	
 	// set up our AudioFormatReader to read in an audio sample
@@ -173,14 +173,14 @@ void KeytarSynth::setup()
 	BigInteger allNotes;
 	allNotes.setRange(0, 128, true);
 
-	// finally, add our sound. The audioReader will be deleted once synth is done with it
+	// finally, add our sound. The reader will be deleted once synth is done with it
 	synth.clearSounds();
 	synth.addSound(new SamplerSound("demo sound",
 									*reader,
 									allNotes,
-									74,   // root midi note
-									0.1,  // attack time
-									0.1,  // release time
+									60,   // root midi note (note C3 = 60)
+									0,  // attack time
+									10,  // release time
 									10.0  // maximum sample length
 									));
 
