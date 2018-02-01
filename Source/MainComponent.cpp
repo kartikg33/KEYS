@@ -30,6 +30,8 @@ public:
 		keytar.setTopLeftPosition(0, 0);
         addAndMakeVisible(keytar); 
 		
+		// load synth
+		keytar.setup();
     }
 
     ~MainContentComponent()
@@ -48,18 +50,11 @@ public:
 
         // For more details, see the help for AudioProcessor::prepareToPlay()
 		keytar.prepareToPlay(samplesPerBlockExpected, sampleRate);
-		keytar.setup(); // this needs to be after prepareToPlay otherwise it won't know the sampleRate to work at!
-		
     }
     
     void getNextAudioBlock (const AudioSourceChannelInfo& bufferToFill) override
     {
-        // Your audio-processing code goes here!
-
-        // For more details, see the help for AudioProcessor::getNextAudioBlock()
-
-        // Right now we are not producing any data, in which case we need to clear the buffer
-        // (to prevent the output of random noise)
+		// clear the buffer to remove any noise
         bufferToFill.clearActiveBufferRegion();   
 
 		// fill the audio buffer with the keytar output
@@ -73,7 +68,8 @@ public:
         // restarted due to a setting change.
 
         // For more details, see the help for AudioProcessor::releaseResources()
-    }
+		keytar.releaseResources();
+	}
 
     //==============================================================================
     void paint (Graphics& g) override
