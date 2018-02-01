@@ -49,6 +49,21 @@ public:
 	void prepareToPlay(int /*samplesPerBlockExpected*/, double sampleRate) override;
 	void getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill) override;
 	void releaseResources() override;
+
+	// This is used to dispatch an incoming message to the message thread
+	struct IncomingMessageCallback : public CallbackMessage
+	{
+		IncomingMessageCallback(MidiKeys* k, const MidiMessage& m)
+			: keys(k), message(m) {}
+
+		void messageCallback() override
+		{
+			if (keys != nullptr)
+				keys->addMessageToList(message);
+		}
+		Component::SafePointer<MidiKeys> keys;
+		MidiMessage message;
+	};
     //[/UserMethods]
 
     void paint (Graphics& g) override;

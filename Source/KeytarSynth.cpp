@@ -22,7 +22,6 @@
 
 #include "KeytarSynth.h"
 
-
 //[MiscUserDefs] You can add your own user definitions and misc code here...
 #define MAX_VOICES 16
 //[/MiscUserDefs]
@@ -262,7 +261,7 @@ void KeytarSynth::getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill)
 	int message_position;
 	while (i->getNextEvent(message, message_position))
 	{
-		keys.addMessageToList(message);
+		(new IncomingMessageCallback(&keys, message))->post();
 	}
 	i = nullptr;
 }
