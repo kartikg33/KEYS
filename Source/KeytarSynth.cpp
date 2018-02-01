@@ -20,14 +20,14 @@
 //[Headers] You can add your own extra header files here...
 //[/Headers]
 
-#include "UI.h"
+#include "KeytarSynth.h"
 
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
 //[/MiscUserDefs]
 
 //==============================================================================
-UI::UI ()
+KeytarSynth::KeytarSynth ()
 {
     //[Constructor_pre] You can add your own custom stuff here..
     //[/Constructor_pre]
@@ -48,14 +48,14 @@ UI::UI ()
     slider->setValue(50, dontSendNotification);
     //[/UserPreSize]
 
-    setSize (800, 480); // raspberry pi 7'' touchscreen
+    setSize (800, 480);
 
 
     //[Constructor] You can add your own custom stuff here..
     //[/Constructor]
 }
 
-UI::~UI()
+KeytarSynth::~KeytarSynth()
 {
     //[Destructor_pre]. You can add your own custom destruction code here..
     //[/Destructor_pre]
@@ -68,7 +68,7 @@ UI::~UI()
 }
 
 //==============================================================================
-void UI::paint (Graphics& g)
+void KeytarSynth::paint (Graphics& g)
 {
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]
@@ -100,7 +100,7 @@ void UI::paint (Graphics& g)
     }
 
     {
-        int x = 60, y = 500, width = 108, height = 30;
+        int x = 20, y = 396, width = 108, height = 30;
         String text (TRANS("Volume"));
         Colour fillColour = Colour (0xffc6c38a);
         //[UserPaintCustomArguments] Customize the painting arguments here..
@@ -115,17 +115,17 @@ void UI::paint (Graphics& g)
     //[/UserPaint]
 }
 
-void UI::resized()
+void KeytarSynth::resized()
 {
     //[UserPreResize] Add your own custom resize code here..
     //[/UserPreResize]
 
-    slider->setBounds (46, 412, 136, 96);
+    slider->setBounds (8, 304, 136, 96);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
 
-void UI::sliderValueChanged (Slider* sliderThatWasMoved)
+void KeytarSynth::sliderValueChanged (Slider* sliderThatWasMoved)
 {
     //[UsersliderValueChanged_Pre]
     //[/UsersliderValueChanged_Pre]
@@ -155,10 +155,10 @@ void UI::sliderValueChanged (Slider* sliderThatWasMoved)
 
 BEGIN_JUCER_METADATA
 
-<JUCER_COMPONENT documentType="Component" className="UI" componentName="" parentClasses="public Component"
-                 constructorParams="" variableInitialisers="" snapPixels="8" snapActive="1"
-                 snapShown="1" overlayOpacity="0.330" fixedSize="0" initialWidth="800"
-                 initialHeight="600">
+<JUCER_COMPONENT documentType="Component" className="KeytarSynth" componentName=""
+                 parentClasses="public Component" constructorParams="" variableInitialisers=""
+                 snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330"
+                 fixedSize="0" initialWidth="800" initialHeight="480">
   <BACKGROUND backgroundColour="ff323e44">
     <TEXT pos="12 12 108 52" fill="solid: ff4ca0df" hasStroke="0" text="KEYS"
           fontname="Default font" fontsize="49.600000000000001421" kerning="0"
@@ -166,12 +166,12 @@ BEGIN_JUCER_METADATA
     <TEXT pos="16 60 108 20" fill="solid: ffb1d9f7" hasStroke="0" text="Kartik Gohil"
           fontname="Default font" fontsize="15" kerning="0" bold="0" italic="0"
           justification="33"/>
-    <TEXT pos="60 500 108 30" fill="solid: ffc6c38a" hasStroke="0" text="Volume"
+    <TEXT pos="20 396 108 30" fill="solid: ffc6c38a" hasStroke="0" text="Volume"
           fontname="Default font" fontsize="20.199999999999999289" kerning="0"
           bold="0" italic="0" justification="36"/>
   </BACKGROUND>
   <SLIDER name="sldr_Volume" id="f301e62471c2d990" memberName="slider"
-          virtualName="" explicitFocusOrder="0" pos="46 412 136 96" bkgcol="ffbe2a30"
+          virtualName="" explicitFocusOrder="0" pos="8 304 136 96" bkgcol="ffbe2a30"
           thumbcol="ffc6c38a" trackcol="ffc6c38a" rotarysliderfill="ff4ca0df"
           rotaryslideroutline="ff0a2732" min="0" max="100" int="1" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"

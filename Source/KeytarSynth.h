@@ -33,13 +33,13 @@
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class UI  : public Component,
-            public Slider::Listener
+class KeytarSynth  : public Component,
+                     public Slider::Listener
 {
 public:
     //==============================================================================
-    UI ();
-    ~UI();
+    KeytarSynth ();
+    ~KeytarSynth();
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
@@ -60,7 +60,7 @@ private:
 
 
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (UI)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (KeytarSynth)
 };
 
 //[EndFile] You can add extra defines here...
