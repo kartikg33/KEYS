@@ -2,9 +2,6 @@
 
 <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="KEYS\Source\ui">
-      <UniqueIdentifier>{4F8B5B9B-8209-7ED7-C1EB-24B544273CE1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="KEYS\Source">
       <UniqueIdentifier>{3721B2C3-92EB-5AAB-2F4D-204C15E71897}</UniqueIdentifier>
     </Filter>
@@ -376,6 +373,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\KeytarSynth.cpp">
+      <Filter>KEYS\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\MidiKeys.cpp">
       <Filter>KEYS\Source</Filter>
     </ClCompile>
@@ -387,9 +387,6 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\MainComponent.cpp">
       <Filter>KEYS\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\ui\UI.cpp">
-      <Filter>KEYS\Source\ui</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\..\..\..\JUCE\modules\juce_audio_basics\buffers\juce_AudioChannelSet.cpp">
       <Filter>Juce Modules\juce_audio_basics\buffers</Filter>
@@ -2157,14 +2154,14 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\KeytarSynth.h">
+      <Filter>KEYS\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\MidiKeys.h">
       <Filter>KEYS\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Keytar.h">
       <Filter>KEYS\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\ui\UI.h">
-      <Filter>KEYS\Source\ui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\..\..\..\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h">
       <Filter>Juce Modules\juce_audio_basics\audio_play_head</Filter>
