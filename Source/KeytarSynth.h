@@ -61,12 +61,14 @@ private:
     //[UserVariables]   -- You can add your own custom variables in this section.
 	MidiKeys keys; // manager object for keyboard midi device
 	AudioFormatManager audioFormatManager; // manager object that finds an appropriate way to decode various audio files.  Used with SampleSound objects.
+	File* file; // used to read audio files
 	Synthesiser synth; 
 
 	// graphics 
-	ScopedPointer<float> waveform_L = nullptr;
-	ScopedPointer<float> waveform_R = nullptr;
+	ScopedPointer<float> waveform_L = nullptr; // circular buffers of audio samples
+	ScopedPointer<float> waveform_R = nullptr; // circular buffers of audio samples
 	int waveform_length = 0;
+	int waveform_pointer = 0; // circular buffer pointer
     //[/UserVariables]
 
     //==============================================================================

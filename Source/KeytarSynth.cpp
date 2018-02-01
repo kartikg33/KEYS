@@ -67,6 +67,7 @@ KeytarSynth::~KeytarSynth()
     slider = nullptr;
 	waveform_L = nullptr;
 	waveform_R = nullptr;
+	delete file;
 
     //[Destructor]. You can add your own custom destruction code here..
     //[/Destructor]
@@ -192,7 +193,7 @@ void KeytarSynth::setup()
 	audioFormatManager.registerBasicFormats();
 
 	// now that we have our manager, lets read a simple file so we can pass it to our SamplerSound object.
-	File* file = new File(File::getCurrentWorkingDirectory().getChildFile("../../Samples/Bass and Snares/sd1.wav"));
+	file = new File(File::getCurrentWorkingDirectory().getChildFile("../../Samples/Bass and Snares/sd1.wav"));
 	ScopedPointer<AudioFormatReader> reader = audioFormatManager.createReaderFor(*file);
 	
 	// set up our AudioFormatReader to read in an audio sample
@@ -222,7 +223,13 @@ void KeytarSynth::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
 	synth.setCurrentPlaybackSampleRate(sampleRate);
 
 	// set up waveform arrays for graphics
-	waveform_length = samplesPerBlockExpected;	
+	waveform_length = 1000; // samples per block * number of blocks to display // TODO: use sampleRate to come up with a nice number	
+
+	if (waveform_L != nullptr && waveform_R != nullptr)
+	{
+		waveform_L = nullptr;
+		waveform_R = nullptr;
+	}		
 	waveform_L = new float[waveform_length];
 	waveform_R = new float[waveform_length];
 }
@@ -241,14 +248,22 @@ void KeytarSynth::getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill)
 	synth.renderNextBlock(*bufferToFill.buffer, incomingMidi, 0, bufferToFill.numSamples);
 
 	// save a copy of the buffer waveform for printing
-	waveform_length = bufferToFill.numSamples;
-	
-	for (int sample = 0; sample < waveform_length; sample++)
+	if (waveform_L != nullptr && waveform_R != nullptr)
 	{
-		waveform_L[sample] = bufferToFill.buffer->getSample(0, sample);
-		waveform_R[sample] = bufferToFill.buffer->getSample(1, sample);
-	}
+		int index = waveform_pointer;
+		for (int sample = 0; sample < bufferToFill.numSamples; sample++)
+		{
+			index = waveform_pointer + sample; // add buffer samples to next block in array
+			if (index >= waveform_length)
+				index -= waveform_length;
+			waveform_L[index] = bufferToFill.buffer->getSample(0, sample);
+			waveform_R[index] = bufferToFill.buffer->getSample(1, sample);
+		}
 
+		waveform_pointer = index + 1; // increment pointer to next available element in array
+		if (waveform_pointer >= waveform_length)
+			waveform_pointer = 0;
+	}
 
 	// print midi messages to screen
 	ScopedPointer<MidiBuffer::Iterator> i = new MidiBuffer::Iterator(incomingMidi);
