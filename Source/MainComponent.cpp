@@ -7,8 +7,7 @@
 */
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "ui/UI.h"
-#include "Keytar.h"
+#include "KeytarSynth.h"
 #include "MidiKeys.h"
 
 //==============================================================================
@@ -27,15 +26,10 @@ public:
         // specify the number of input and output channels that we want to open
         setAudioChannels (2, 2);
         
-		// add keytar ui to main component
-		ui.setTopLeftPosition(0, 0);
-        //addAndMakeVisible(ui); 
-
-		// add demo MIDI ui to main component	
-		keys.setTopLeftPosition(0, 0);
-		addAndMakeVisible(keys);
-
-		instrument.setup();
+		// add keytar synth ui to main component
+		keytar.setTopLeftPosition(0, 0);
+        addAndMakeVisible(keytar); 
+		
     }
 
     ~MainContentComponent()
@@ -53,17 +47,9 @@ public:
         // but be careful - it will be called on the audio thread, not the GUI thread.
 
         // For more details, see the help for AudioProcessor::prepareToPlay()
-		(void)samplesPerBlockExpected; // unused parameter
-		keys.setCurrentPlaybackSampleRate(sampleRate);
-        instrument.setCurrentPlaybackSampleRate(sampleRate);
+		keytar.prepareToPlay(samplesPerBlockExpected, sampleRate);
+		keytar.setup(); // this needs to be after prepareToPlay otherwise it won't know the sampleRate to work at!
 		
-    }
-
-    void processBlock (AudioBuffer<float> &buffer, MidiBuffer &midiMessages)
-    {
-		
-		
-        instrument.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
     }
     
     void getNextAudioBlock (const AudioSourceChannelInfo& bufferToFill) override
@@ -76,17 +62,9 @@ public:
         // (to prevent the output of random noise)
         bufferToFill.clearActiveBufferRegion();   
 
-		// retrieve midi messages from buffer and print to screen
-		MidiBuffer midiMessages; 
-		keys.getNextBlock(midiMessages, bufferToFill.numSamples);
-		ScopedPointer<MidiBuffer::Iterator> i = new MidiBuffer::Iterator(midiMessages);
-		MidiMessage message;
-		int message_position;
-		while (i->getNextEvent(message, message_position))
-		{
-			keys.addMessageToList(message);
-		}
-		i = nullptr;
+		// fill the audio buffer with the keytar output
+		keytar.getNextAudioBlock(bufferToFill);
+		
     }
 
     void releaseResources() override
@@ -111,8 +89,7 @@ public:
         // This is called when the MainContentComponent is resized.
         // If you add any child components, this is where you should
         // update their positions.
-		ui.centreWithSize(getWidth(), getHeight());
-		keys.centreWithSize(getWidth(), getHeight());
+		keytar.centreWithSize(getWidth(), getHeight());
     }
 
 
@@ -120,10 +97,7 @@ private:
     //==============================================================================
 
     // Your private member variables go here...
-
-    UI ui;
-    Keytar instrument;
-	MidiKeys keys;
+    KeytarSynth keytar;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainContentComponent)
 };

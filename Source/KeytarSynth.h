@@ -21,6 +21,7 @@
 
 //[Headers]     -- You can add your own extra header files here --
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "MidiKeys.h"
 //[/Headers]
 
 
@@ -33,8 +34,9 @@
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class KeytarSynth  : public Component,
-                     public Slider::Listener
+class KeytarSynth	: public Component
+					, public AudioSource
+					, public Slider::Listener
 {
 public:
     //==============================================================================
@@ -43,6 +45,10 @@ public:
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
+	void setup();
+	void prepareToPlay(int /*samplesPerBlockExpected*/, double sampleRate) override;
+	void getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill) override;
+	void releaseResources() override;
     //[/UserMethods]
 
     void paint (Graphics& g) override;
@@ -53,6 +59,9 @@ public:
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
+	MidiKeys keys; // manager object for keyboard midi device
+	AudioFormatManager audioFormatManager; // manager object that finds an appropriate way to decode various audio files.  Used with SampleSound objects.
+	Synthesiser synth; 
     //[/UserVariables]
 
     //==============================================================================
