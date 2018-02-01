@@ -62,6 +62,11 @@ private:
 	MidiKeys keys; // manager object for keyboard midi device
 	AudioFormatManager audioFormatManager; // manager object that finds an appropriate way to decode various audio files.  Used with SampleSound objects.
 	Synthesiser synth; 
+
+	// graphics 
+	ScopedPointer<float> waveform_L = nullptr;
+	ScopedPointer<float> waveform_R = nullptr;
+	int waveform_length = 0;
     //[/UserVariables]
 
     //==============================================================================

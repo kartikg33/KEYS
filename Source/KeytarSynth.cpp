@@ -55,7 +55,7 @@ KeytarSynth::KeytarSynth ()
     //[Constructor] You can add your own custom stuff here..
 	// add MIDI keys ui to main component	
 	keys.setTopLeftPosition(0, 0);
-	addAndMakeVisible(keys);
+	//addAndMakeVisible(keys);
     //[/Constructor]
 }
 
@@ -78,44 +78,70 @@ void KeytarSynth::paint (Graphics& g)
     //[/UserPrePaint]
 
     g.fillAll (Colour (0xff323e44));
+	{
+		int x = 12, y = 12, width = 108, height = 52;
+		String text(TRANS("KEYS"));
+		Colour fillColour = Colour(0xff4ca0df);
+		//[UserPaintCustomArguments] Customize the painting arguments here..
+		//[/UserPaintCustomArguments]
+		g.setColour(fillColour);
+		g.setFont(Font(49.60f, Font::plain).withTypefaceStyle("Regular"));
+		g.drawText(text, x, y, width, height,
+			Justification::centredLeft, true);
+	}
 
-    {
-        int x = 12, y = 12, width = 108, height = 52;
-        String text (TRANS("KEYS"));
-        Colour fillColour = Colour (0xff4ca0df);
-        //[UserPaintCustomArguments] Customize the painting arguments here..
-        //[/UserPaintCustomArguments]
-        g.setColour (fillColour);
-        g.setFont (Font (49.60f, Font::plain).withTypefaceStyle ("Regular"));
-        g.drawText (text, x, y, width, height,
-                    Justification::centredLeft, true);
-    }
+	{
+		int x = 16, y = 60, width = 108, height = 20;
+		String text(TRANS("Kartik Gohil"));
+		Colour fillColour = Colour(0xffb1d9f7);
+		//[UserPaintCustomArguments] Customize the painting arguments here..
+		//[/UserPaintCustomArguments]
+		g.setColour(fillColour);
+		g.setFont(Font(15.00f, Font::plain).withTypefaceStyle("Regular"));
+		g.drawText(text, x, y, width, height,
+			Justification::centredLeft, true);
+	}
 
-    {
-        int x = 16, y = 60, width = 108, height = 20;
-        String text (TRANS("Kartik Gohil"));
-        Colour fillColour = Colour (0xffb1d9f7);
-        //[UserPaintCustomArguments] Customize the painting arguments here..
-        //[/UserPaintCustomArguments]
-        g.setColour (fillColour);
-        g.setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
-        g.drawText (text, x, y, width, height,
-                    Justification::centredLeft, true);
-    }
-
-    {
-        int x = 20, y = 396, width = 108, height = 30;
-        String text (TRANS("Volume"));
-        Colour fillColour = Colour (0xffc6c38a);
-        //[UserPaintCustomArguments] Customize the painting arguments here..
-        //[/UserPaintCustomArguments]
-        g.setColour (fillColour);
-        g.setFont (Font (20.20f, Font::plain).withTypefaceStyle ("Regular"));
-        g.drawText (text, x, y, width, height,
-                    Justification::centred, true);
-    }
+	{
+		int x = 20, y = 396, width = 108, height = 30;
+		String text(TRANS("Volume"));
+		Colour fillColour = Colour(0xffc6c38a);
+		//[UserPaintCustomArguments] Customize the painting arguments here..
+		//[/UserPaintCustomArguments]
+		g.setColour(fillColour);
+		g.setFont(Font(20.20f, Font::plain).withTypefaceStyle("Regular"));
+		g.drawText(text, x, y, width, height,
+			Justification::centred, true);
+	}
 
     //[UserPaint] Add your own custom painting code here..
+	// don't paint the background as this component will be overlayed on the maincomponent!
+	const int centreY = getHeight() / 2;
+
+	Path wavePathL;
+	Path wavePathR;
+	wavePathL.startNewSubPath(0, centreY);
+	wavePathR.startNewSubPath(0, centreY);
+
+	// only paint waveforms if arrays exist
+	if (waveform_L != nullptr && waveform_R != nullptr) {
+		float incr = (getWidth() / float(waveform_length - 1));
+		float i = 0.0f;
+		for (int x = 0; x < waveform_length; x++) {
+			wavePathL.lineTo(i, centreY + int(waveform_L[x] * (centreY / 2)));
+			wavePathR.lineTo(i, centreY + int(waveform_R[x] * (centreY / 2)));
+			i += incr;
+		}
+	}
+
+    
+	g.setColour(Colours::steelblue);
+	g.setOpacity(0.5f);
+	g.strokePath(wavePathR, PathStrokeType(3.0f));
+
+	g.setColour(Colours::red);
+	g.setOpacity(0.5f);
+	g.strokePath(wavePathL, PathStrokeType(3.0f));
     //[/UserPaint]
 }
 
@@ -186,10 +212,15 @@ void KeytarSynth::setup()
 
 }
 
-void KeytarSynth::prepareToPlay(int /*samplesPerBlockExpected*/, double sampleRate) 
+void KeytarSynth::prepareToPlay(int samplesPerBlockExpected, double sampleRate) 
 {
 	keys.setCurrentPlaybackSampleRate(sampleRate);
 	synth.setCurrentPlaybackSampleRate(sampleRate);
+
+	// set up waveform arrays for graphics
+	waveform_length = samplesPerBlockExpected;	
+	waveform_L = new float[waveform_length];
+	waveform_R = new float[waveform_length];
 }
 
 void KeytarSynth::getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill) 
@@ -205,6 +236,16 @@ void KeytarSynth::getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill)
 	// and now get the synth to process the midi events and generate its output.
 	synth.renderNextBlock(*bufferToFill.buffer, incomingMidi, 0, bufferToFill.numSamples);
 
+	// save a copy of the buffer waveform for printing
+	waveform_length = bufferToFill.numSamples;
+	
+	for (int sample = 0; sample < waveform_length; sample++)
+	{
+		waveform_L[sample] = bufferToFill.buffer->getSample(0, sample);
+		waveform_R[sample] = bufferToFill.buffer->getSample(1, sample);
+	}
+
+
 	// print midi messages to screen
 	ScopedPointer<MidiBuffer::Iterator> i = new MidiBuffer::Iterator(incomingMidi);
 	MidiMessage message;
@@ -218,7 +259,8 @@ void KeytarSynth::getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill)
 
 void KeytarSynth::releaseResources() 
 {
-
+	waveform_L = nullptr;
+	waveform_R = nullptr;
 }
 
 //[/MiscUserCode]
