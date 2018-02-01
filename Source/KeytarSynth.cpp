@@ -163,6 +163,7 @@ void KeytarSynth::sliderValueChanged (Slider* sliderThatWasMoved)
     if (sliderThatWasMoved == slider)
     {
         //[UserSliderCode_slider] -- add your slider handling code here..
+		volume = (double)(slider->getValue()/10); // max gain setting is 100/10 = 10
         //[/UserSliderCode_slider]
     }
 
@@ -240,6 +241,7 @@ void KeytarSynth::getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill)
 
 	// and now get the synth to process the midi events and generate its output.
 	synth.renderNextBlock(*bufferToFill.buffer, incomingMidi, 0, bufferToFill.numSamples);
+	bufferToFill.buffer->applyGain(volume);
 
 	// save a copy of the buffer waveform for printing
 	if (waveform_L != nullptr && waveform_R != nullptr)

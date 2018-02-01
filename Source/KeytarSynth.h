@@ -79,6 +79,9 @@ private:
 	File* file; // used to read audio files
 	Synthesiser synth; 
 
+	// controls
+	double volume = 0.5; // set to half volume
+
 	// graphics 
 	ScopedPointer<float> waveform_L = nullptr; // circular buffers of audio samples
 	ScopedPointer<float> waveform_R = nullptr; // circular buffers of audio samples
