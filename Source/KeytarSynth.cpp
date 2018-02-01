@@ -54,7 +54,7 @@ KeytarSynth::KeytarSynth ()
 
 
     //[UserPreSize]
-    slider->setValue(50, dontSendNotification);
+    sldrVolume->setValue(1, dontSendNotification); // set default value to gain of 1
     //[/UserPreSize]
 
     setSize (800, 480);
@@ -116,8 +116,8 @@ void KeytarSynth::paint (Graphics& g)
     }
 
     {
-        int x = 832, y = -4, width = 120, height = 30;
-        String text (TRANS("Volume"));
+        int x = 672, y = 0, width = 152, height = 24;
+        String text (TRANS("Vol"));
         Colour fillColour = Colours::aqua;
         //[UserPaintCustomArguments] Customize the painting arguments here..
         //[/UserPaintCustomArguments]
@@ -161,8 +161,8 @@ void KeytarSynth::resized()
     //[UserPreResize] Add your own custom resize code here..
     //[/UserPreResize]
 
-    sldrVolume->setBounds (816, 16, 152, 112);
-    btnMIDISettings->setBounds (8, 472, 136, 48);
+    sldrVolume->setBounds (671, 16, 152, 112);
+    btnMIDISettings->setBounds (8, 424, 136, 48);
     //[UserResized] Add your own custom resize handling here..
 	keys.centreWithSize(getWidth(), getHeight());
     //[/UserResized]
@@ -317,7 +317,7 @@ BEGIN_JUCER_METADATA
 <JUCER_COMPONENT documentType="Component" className="KeytarSynth" componentName=""
                  parentClasses="public Component, public AudioSource" constructorParams=""
                  variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
-                 overlayOpacity="0.330" fixedSize="0" initialWidth="800" initialHeight="480">
+                 overlayOpacity="0.330" fixedSize="1" initialWidth="800" initialHeight="480">
   <BACKGROUND backgroundColour="ff282529">
     <TEXT pos="4 -4 108 52" fill="solid: ff00ffff" hasStroke="0" text="KEYS"
           fontname="Default font" fontsize="49.600000000000001421" kerning="0"
@@ -325,19 +325,19 @@ BEGIN_JUCER_METADATA
     <TEXT pos="8 44 112 20" fill="solid: ff5f9ea0" hasStroke="0" text="Kartik Gohil"
           fontname="Default font" fontsize="15" kerning="0" bold="0" italic="0"
           justification="33"/>
-    <TEXT pos="832 -4 120 30" fill="solid: ff00ffff" hasStroke="0" text="Volume"
+    <TEXT pos="672 0 152 24" fill="solid: ff00ffff" hasStroke="0" text="Vol"
           fontname="Default font" fontsize="20.199999999999999289" kerning="0"
           bold="0" italic="0" justification="36"/>
   </BACKGROUND>
   <SLIDER name="Volume" id="f301e62471c2d990" memberName="sldrVolume" virtualName=""
-          explicitFocusOrder="0" pos="816 16 152 112" bkgcol="ffbe2a30"
+          explicitFocusOrder="0" pos="671 16 152 112" bkgcol="ffbe2a30"
           thumbcol="ff00ffff" trackcol="ff00ffff" rotarysliderfill="ff00ffff"
           rotaryslideroutline="ff5f9ea0" min="0.10000000000000000555" max="10"
           int="0.10000000000000000555" style="Rotary" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"
           needsCallback="1"/>
   <TEXTBUTTON name="btnMIDISettings" id="531f0b272053244d" memberName="btnMIDISettings"
-              virtualName="" explicitFocusOrder="0" pos="8 472 136 48" bgColOff="ff2c3b3c"
+              virtualName="" explicitFocusOrder="0" pos="8 424 136 48" bgColOff="ff2c3b3c"
               textCol="ff7fffd4" textColOn="ff00ffff" buttonText="MIDI Settings"
               connectedEdges="8" needsCallback="1" radioGroupId="0"/>
 </JUCER_COMPONENT>
