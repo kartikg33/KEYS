@@ -59,11 +59,7 @@ KeytarSynth::KeytarSynth ()
 
     setSize (800, 480);
 
-
     //[Constructor] You can add your own custom stuff here..
-	// add MIDI keys ui to main component
-	keys.setTopLeftPosition(0, 0);
-	//addAndMakeVisible(keys);
     //[/Constructor]
 }
 
@@ -192,6 +188,9 @@ void KeytarSynth::buttonClicked (Button* buttonThatWasClicked)
     if (buttonThatWasClicked == btnMIDISettings)
     {
         //[UserButtonCode_btnMIDISettings] -- add your button handler code here..
+		// add MIDI keys ui to main component
+		keys.setTopLeftPosition(0, 0);
+		addAndMakeVisible(keys);
         //[/UserButtonCode_btnMIDISettings]
     }
 
