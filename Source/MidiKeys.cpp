@@ -47,7 +47,7 @@ void MidiLogListBoxModel::paintListBoxItem(int row, Graphics& g, int width, int 
 //==============================================================================
 
 MidiKeys::MidiKeys()
-	: lastInputIndex(0)
+	:  lastInputIndex(0)
 	, keyboardComponent(keyboardState, MidiKeyboardComponent::horizontalKeyboard)
 	, midiLogListBoxModel(midiMessageList)
 {
@@ -66,10 +66,10 @@ MidiKeys::MidiKeys()
 	midiInputList.addItemList(midiInputs, 1);
 	midiInputList.addListener(this);
 
-	// find the first enabled device and use that by default
+	// find the first  Arduino device and use that by default
 	for (int i = 0; i < midiInputs.size(); ++i)
 	{
-		if (deviceManager.isMidiInputEnabled(midiInputs[i]))
+		if (midiInputs[i].contains("Arduino"))
 		{
 			setMidiInput(i);
 			break;
