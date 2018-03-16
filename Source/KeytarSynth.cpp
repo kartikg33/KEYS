@@ -214,8 +214,9 @@ void KeytarSynth::setup()
 	audioFormatManager.registerBasicFormats();
 
 	// now that we have our manager, lets read a simple file so we can pass it to our SamplerSound object.
-	file = new File(File::getCurrentWorkingDirectory().getChildFile("../../Samples/Bass and Snares/sd1.wav"));
-	//file = new File(File::getCurrentWorkingDirectory().getChildFile("../../Samples/Smooth Piano 1.wav"));
+	//file = new File(File::getCurrentWorkingDirectory().getChildFile("../../Samples/Bass and Snares/sd1.wav"));
+	//file = new File(File::getCurrentWorkingDirectory().getChildFile("../../Samples/piano/Kawai-K3-Electric-Piano-C4.wav"));
+	file = new File(File::getCurrentWorkingDirectory().getChildFile("../../Samples/piano/Alesis-Sanctuary-QCard-Tines-Aahs-C4.wav"));
 	ScopedPointer<AudioFormatReader> reader = audioFormatManager.createReaderFor(*file);
 
 	// set up our AudioFormatReader to read in an audio sample
