@@ -61,13 +61,26 @@ KeytarSynth::KeytarSynth ()
 
 
     //[UserPreSize]
-    sldrVolume->setValue(1, dontSendNotification); // set default value to gain of 1
+    
     //[/UserPreSize]
 
     setSize (800, 480);
 
 
     //[Constructor] You can add your own custom stuff here..
+	sldrVolume->setValue(1, dontSendNotification); // set default value to gain of 1
+
+	// init list of instruments
+	cmbInstrument->clear();
+	DirectoryIterator iter(File(File::getCurrentWorkingDirectory().getChildFile("../../Samples")), false, "*.wav" ); // look for wav files in Samples directory
+	int item_index = 1;
+	while (iter.next())
+	{
+		cmbInstrument->addItem(iter.getFile().getFileNameWithoutExtension(), item_index);
+		item_index++;
+	}
+	if(cmbInstrument->getNumItems() > 0)
+		cmbInstrument->setSelectedItemIndex(0); // select 1st instrument by default
     //[/Constructor]
 }
 
@@ -241,7 +254,7 @@ void KeytarSynth::setup()
 	// now that we have our manager, lets read a simple file so we can pass it to our SamplerSound object.
 	//file = new File(File::getCurrentWorkingDirectory().getChildFile("../../Samples/Bass and Snares/sd1.wav"));
 	//file = new File(File::getCurrentWorkingDirectory().getChildFile("../../Samples/piano/Kawai-K3-Electric-Piano-C4.wav"));
-	file = new File(File::getCurrentWorkingDirectory().getChildFile("../../Samples/piano/Alesis-Sanctuary-QCard-Tines-Aahs-C4.wav"));
+	file = new File(File::getCurrentWorkingDirectory().getChildFile("../../Samples/Alesis Sanctuary Choral Tines.wav"));
 	ScopedPointer<AudioFormatReader> reader = audioFormatManager.createReaderFor(*file);
 
 	// set up our AudioFormatReader to read in an audio sample
