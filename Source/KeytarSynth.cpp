@@ -242,39 +242,41 @@ void KeytarSynth::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
 
 void KeytarSynth::setup()
 {
-	// add voices to our sampler
-	for (int i = 0; i < MAX_VOICES; i++) {
-		synth.addVoice(new SamplerVoice());
+	if (cmbInstrument->getNumItems() > 0 && cmbInstrument->getSelectedItemIndex() > -1)
+	{
+		// add voices to our sampler
+		for (int i = 0; i < MAX_VOICES; i++) {
+			synth.addVoice(new SamplerVoice());
+		}
+
+		// set up our AudioFormatManager class as detailed in the API docs
+		// we can now use WAV and AIFF files!
+		audioFormatManager.registerBasicFormats();
+	
+		// load selected instrument
+		file = new File(File::getCurrentWorkingDirectory().getChildFile("../../Samples/" + cmbInstrument->getItemText(cmbInstrument->getSelectedItemIndex()) + ".wav"));
+
+		ScopedPointer<AudioFormatReader> reader = audioFormatManager.createReaderFor(*file);
+
+		// set up our AudioFormatReader to read in an audio sample
+		WavAudioFormat wavFormat;
+		//ScopedPointer<AudioFormatReader> audioReader(wavFormat.createReaderFor(new MemoryInputStream(BinaryData::cello_wav, BinaryData::cello_wavSize, false), true));
+
+		// allow our sound to be played on all notes
+		BigInteger allNotes;
+		allNotes.setRange(0, 128, true);
+
+		// finally, add our sound. The reader will be deleted once synth is done with it
+		synth.clearSounds();
+		synth.addSound(new SamplerSound("demo sound",
+			*reader,
+			allNotes,
+			60,   // root midi note (note C3 = 60)
+			0,  // attack time
+			10,  // release time
+			10.0  // maximum sample length
+		));
 	}
-
-	// set up our AudioFormatManager class as detailed in the API docs
-	// we can now use WAV and AIFF files!
-	audioFormatManager.registerBasicFormats();
-
-	// now that we have our manager, lets read a simple file so we can pass it to our SamplerSound object.
-	//file = new File(File::getCurrentWorkingDirectory().getChildFile("../../Samples/Bass and Snares/sd1.wav"));
-	//file = new File(File::getCurrentWorkingDirectory().getChildFile("../../Samples/piano/Kawai-K3-Electric-Piano-C4.wav"));
-	file = new File(File::getCurrentWorkingDirectory().getChildFile("../../Samples/Alesis Sanctuary Choral Tines.wav"));
-	ScopedPointer<AudioFormatReader> reader = audioFormatManager.createReaderFor(*file);
-
-	// set up our AudioFormatReader to read in an audio sample
-	WavAudioFormat wavFormat;
-	//ScopedPointer<AudioFormatReader> audioReader(wavFormat.createReaderFor(new MemoryInputStream(BinaryData::cello_wav, BinaryData::cello_wavSize, false), true));
-
-	// allow our sound to be played on all notes
-	BigInteger allNotes;
-	allNotes.setRange(0, 128, true);
-
-	// finally, add our sound. The reader will be deleted once synth is done with it
-	synth.clearSounds();
-	synth.addSound(new SamplerSound("demo sound",
-									*reader,
-									allNotes,
-									60,   // root midi note (note C3 = 60)
-									0,  // attack time
-									10,  // release time
-									10.0  // maximum sample length
-									));
 
 }
 
