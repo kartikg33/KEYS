@@ -52,12 +52,20 @@ KeytarSynth::KeytarSynth ()
     btnMIDISettings->setColour (TextButton::textColourOffId, Colours::aquamarine);
     btnMIDISettings->setColour (TextButton::textColourOnId, Colours::aqua);
 
+    addAndMakeVisible (cmbInstrument = new ComboBox ("Instrument"));
+    cmbInstrument->setEditableText (false);
+    cmbInstrument->setJustificationType (Justification::centredLeft);
+    cmbInstrument->setTextWhenNothingSelected (TRANS("Select Instrument"));
+    cmbInstrument->setTextWhenNoChoicesAvailable (TRANS("No Instruments"));
+    cmbInstrument->addListener (this);
+
 
     //[UserPreSize]
     sldrVolume->setValue(1, dontSendNotification); // set default value to gain of 1
     //[/UserPreSize]
 
     setSize (800, 480);
+
 
     //[Constructor] You can add your own custom stuff here..
     //[/Constructor]
@@ -73,6 +81,7 @@ KeytarSynth::~KeytarSynth()
 
     sldrVolume = nullptr;
     btnMIDISettings = nullptr;
+    cmbInstrument = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -159,6 +168,7 @@ void KeytarSynth::resized()
 
     sldrVolume->setBounds (671, 16, 152, 112);
     btnMIDISettings->setBounds (8, 424, 136, 48);
+    cmbInstrument->setBounds (480, 440, 302, 24);
     //[UserResized] Add your own custom resize handling here..
 	keys.centreWithSize(getWidth(), getHeight());
     //[/UserResized]
@@ -196,6 +206,21 @@ void KeytarSynth::buttonClicked (Button* buttonThatWasClicked)
 
     //[UserbuttonClicked_Post]
     //[/UserbuttonClicked_Post]
+}
+
+void KeytarSynth::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
+{
+    //[UsercomboBoxChanged_Pre]
+    //[/UsercomboBoxChanged_Pre]
+
+    if (comboBoxThatHasChanged == cmbInstrument)
+    {
+        //[UserComboBoxCode_cmbInstrument] -- add your combo box handling code here..
+        //[/UserComboBoxCode_cmbInstrument]
+    }
+
+    //[UsercomboBoxChanged_Post]
+    //[/UsercomboBoxChanged_Post]
 }
 
 
@@ -340,6 +365,10 @@ BEGIN_JUCER_METADATA
               virtualName="" explicitFocusOrder="0" pos="8 424 136 48" bgColOff="ff2c3b3c"
               textCol="ff7fffd4" textColOn="ff00ffff" buttonText="MIDI Settings"
               connectedEdges="8" needsCallback="1" radioGroupId="0"/>
+  <COMBOBOX name="Instrument" id="6e6e0e0f0d27412c" memberName="cmbInstrument"
+            virtualName="" explicitFocusOrder="0" pos="480 440 302 24" editable="0"
+            layout="33" items="" textWhenNonSelected="Select Instrument"
+            textWhenNoItems="No Instruments"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

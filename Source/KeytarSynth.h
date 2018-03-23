@@ -37,7 +37,8 @@
 class KeytarSynth  : public Component,
                      public AudioSource,
                      public Slider::Listener,
-                     public Button::Listener
+                     public Button::Listener,
+                     public ComboBox::Listener
 {
 public:
     //==============================================================================
@@ -71,6 +72,7 @@ public:
     void resized() override;
     void sliderValueChanged (Slider* sliderThatWasMoved) override;
     void buttonClicked (Button* buttonThatWasClicked) override;
+    void comboBoxChanged (ComboBox* comboBoxThatHasChanged) override;
 
 
 
@@ -94,6 +96,7 @@ private:
     //==============================================================================
     ScopedPointer<Slider> sldrVolume;
     ScopedPointer<TextButton> btnMIDISettings;
+    ScopedPointer<ComboBox> cmbInstrument;
 
 
     //==============================================================================
