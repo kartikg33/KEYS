@@ -17,7 +17,6 @@ Install :
 webkit2gtk-4.0
 gtk+-x11-3.0
 
-
 Edit the Makefile in two places:
 
 First here:

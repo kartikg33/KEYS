@@ -7,26 +7,35 @@
 */
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "ui/UI.h"
-#include "Keytar.h"
+#include "KeytarSynth.h"
+#include "MidiKeys.h"
 
 //==============================================================================
 /*
     This component lives inside our window, and this is where you should put all
     your controls and content.
 */
-class MainContentComponent   : public AudioAppComponent
+class MainContentComponent		: public AudioAppComponent
+								, private Timer
 {
 public:
     //==============================================================================
     MainContentComponent()
     {
-        setSize (800, 600);
+        setSize (800, 480); // raspberry pi 7'' touchscreen
 
         // specify the number of input and output channels that we want to open
         setAudioChannels (2, 2);
         
-        addAndMakeVisible(ui);
+		// add keytar synth ui to main component
+		keytar.setTopLeftPosition(0, 0);
+        addAndMakeVisible(keytar); 
+		
+		// load synth
+		keytar.setup();
+
+		// use a timer to keep repainting this component
+		startTimerHz(1000); // will be painted 100 times a second 
     }
 
     ~MainContentComponent()
@@ -44,23 +53,17 @@ public:
         // but be careful - it will be called on the audio thread, not the GUI thread.
 
         // For more details, see the help for AudioProcessor::prepareToPlay()
-        instrument.setCurrentPlaybackSampleRate(sampleRate);
-    }
-
-    void processBlock (AudioBuffer<float> &buffer, MidiBuffer &midiMessages)
-    {
-        instrument.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
+		keytar.prepareToPlay(samplesPerBlockExpected, sampleRate);
     }
     
     void getNextAudioBlock (const AudioSourceChannelInfo& bufferToFill) override
     {
-        // Your audio-processing code goes here!
+		// clear the buffer to remove any noise
+        bufferToFill.clearActiveBufferRegion();   
 
-        // For more details, see the help for AudioProcessor::getNextAudioBlock()
-
-        // Right now we are not producing any data, in which case we need to clear the buffer
-        // (to prevent the output of random noise)
-        bufferToFill.clearActiveBufferRegion();    
+		// fill the audio buffer with the keytar output
+		keytar.getNextAudioBlock(bufferToFill);
+		
     }
 
     void releaseResources() override
@@ -69,7 +72,8 @@ public:
         // restarted due to a setting change.
 
         // For more details, see the help for AudioProcessor::releaseResources()
-    }
+		keytar.releaseResources();
+	}
 
     //==============================================================================
     void paint (Graphics& g) override
@@ -78,13 +82,21 @@ public:
         g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));
 
         // You can add your drawing code here!
+		keytar.paint(g);
     }
+
+	void timerCallback() override
+	{
+		repaint();
+	}
 
     void resized() override
     {
         // This is called when the MainContentComponent is resized.
         // If you add any child components, this is where you should
         // update their positions.
+		keytar.centreWithSize(getWidth(), getHeight());
+		keytar.resized();
     }
 
 
@@ -92,9 +104,8 @@ private:
     //==============================================================================
 
     // Your private member variables go here...
+    KeytarSynth keytar;
 
-    UI ui;
-    Keytar instrument;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainContentComponent)
 };
 

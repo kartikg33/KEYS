@@ -6,15 +6,13 @@
               cppLanguageStandard="11" companyCopyright="" jucerVersion="5.2.0">
   <MAINGROUP id="PRc9pH" name="KEYS">
     <GROUP id="{11BB1F64-A394-753D-B9E4-A87BE29A8265}" name="Source">
-      <FILE id="EW96ir" name="Keytar.cpp" compile="1" resource="0" file="Source/Keytar.cpp"/>
-      <FILE id="g6964e" name="Keytar.h" compile="0" resource="0" file="Source/Keytar.h"/>
+      <FILE id="VR86gs" name="KeytarSynth.cpp" compile="1" resource="0" file="Source/KeytarSynth.cpp"/>
+      <FILE id="s3YMY9" name="KeytarSynth.h" compile="0" resource="0" file="Source/KeytarSynth.h"/>
+      <FILE id="gIBxQn" name="MidiKeys.cpp" compile="1" resource="0" file="Source/MidiKeys.cpp"/>
+      <FILE id="SdRIMu" name="MidiKeys.h" compile="0" resource="0" file="Source/MidiKeys.h"/>
       <FILE id="ta33dy" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
       <FILE id="vU4A6r" name="MainComponent.cpp" compile="1" resource="0"
             file="Source/MainComponent.cpp"/>
-      <GROUP id="{70470463-2765-BC21-4E74-5456834A6FC6}" name="ui">
-        <FILE id="iKmOPZ" name="UI.cpp" compile="1" resource="0" file="Source/ui/UI.cpp"/>
-        <FILE id="Reqmn6" name="UI.h" compile="0" resource="0" file="Source/ui/UI.h"/>
-      </GROUP>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
