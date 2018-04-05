@@ -1,3 +1,7 @@
+Apparently the following line should do everything:
+sudo apt-get -y install freeglut3-dev libasound2-dev libfreetype6-dev libjack-dev libx11-dev libxcomposite-dev libxcursor-dev libxinerama-dev mesa-common-dev
+
+
 Install apt get:
 
 sudo apt-get update

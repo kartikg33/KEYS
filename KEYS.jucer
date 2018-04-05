@@ -66,12 +66,12 @@
         <MODULEPATH id="juce_audio_utils" path="..\..\..\..\..\..\JUCE\modules"/>
       </MODULEPATHS>
     </VS2015>
-    <LINUX_MAKE targetFolder="Builds/LinuxMakefile">
+    <LINUX_MAKE targetFolder="Builds/LinuxMakefile" extraDefs="JUCE_USE_XSHM=0 JUCE_USE_XINERAMA=0">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" isDebug="1" optimisation="1" linkTimeOptimisation="0"
-                       targetName="KEYS"/>
+                       targetName="KEYS" linuxArchitecture="-march=armv6"/>
         <CONFIGURATION name="Release" isDebug="0" optimisation="3" linkTimeOptimisation="1"
-                       targetName="KEYS"/>
+                       targetName="KEYS" linuxArchitecture="-march=armv6"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_core" path="..\JUCE\modules"/>
