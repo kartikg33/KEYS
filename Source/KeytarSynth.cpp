@@ -80,7 +80,7 @@ KeytarSynth::KeytarSynth ()
 		item_index++;
 	}
 	if(cmbInstrument->getNumItems() > 0)
-		cmbInstrument->setSelectedItemIndex(2); // select 1st instrument by default
+		cmbInstrument->setSelectedItemIndex(0); // select 1st instrument by default
     //[/Constructor]
 }
 
@@ -229,6 +229,27 @@ void KeytarSynth::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
     if (comboBoxThatHasChanged == cmbInstrument)
     {
         //[UserComboBoxCode_cmbInstrument] -- add your combo box handling code here..
+		// load selected instrument
+		delete file;
+		file = new File(File::getCurrentWorkingDirectory().getChildFile("../../Samples/" + cmbInstrument->getItemText(cmbInstrument->getSelectedItemIndex()) + ".wav"));
+
+		ScopedPointer<AudioFormatReader> reader = audioFormatManager.createReaderFor(*file);
+
+		// allow our sound to be played on all notes
+		BigInteger allNotes;
+		allNotes.setRange(0, 128, true);
+
+		// finally, add our sound. The reader will be deleted once synth is done with it
+		synth.clearSounds();
+
+		synth.addSound(new SamplerSound("demo sound",
+			*reader,
+			allNotes,
+			60,   // root midi note (note C3 = 60)
+			0,  // attack time
+			10,  // release time
+			10.0  // maximum sample length
+		));
         //[/UserComboBoxCode_cmbInstrument]
     }
 
