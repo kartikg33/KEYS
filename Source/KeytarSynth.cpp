@@ -80,7 +80,7 @@ KeytarSynth::KeytarSynth ()
 		item_index++;
 	}
 	if(cmbInstrument->getNumItems() > 0)
-		cmbInstrument->setSelectedItemIndex(0); // select 1st instrument by default
+		cmbInstrument->setSelectedItemIndex(2); // select 1st instrument by default
     //[/Constructor]
 }
 
@@ -254,14 +254,9 @@ void KeytarSynth::setup()
 		audioFormatManager.registerBasicFormats();
 	
 		// load selected instrument
-		//file = new File(File::getCurrentWorkingDirectory().getChildFile("../../Samples/" + cmbInstrument->getItemText(cmbInstrument->getSelectedItemIndex()) + ".wav"));
-		file = new File(File::getCurrentWorkingDirectory().getChildFile("../../Samples/mmhmm/mmhmm_1.wav"));
+		file = new File(File::getCurrentWorkingDirectory().getChildFile("../../Samples/" + cmbInstrument->getItemText(cmbInstrument->getSelectedItemIndex()) + ".wav"));
 
 		ScopedPointer<AudioFormatReader> reader = audioFormatManager.createReaderFor(*file);
-
-		// set up our AudioFormatReader to read in an audio sample
-		WavAudioFormat wavFormat;
-		//ScopedPointer<AudioFormatReader> audioReader(wavFormat.createReaderFor(new MemoryInputStream(BinaryData::cello_wav, BinaryData::cello_wavSize, false), true));
 
 		// allow our sound to be played on all notes
 		BigInteger allNotes;
