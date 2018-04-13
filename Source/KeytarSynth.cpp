@@ -254,7 +254,8 @@ void KeytarSynth::setup()
 		audioFormatManager.registerBasicFormats();
 	
 		// load selected instrument
-		file = new File(File::getCurrentWorkingDirectory().getChildFile("../../Samples/" + cmbInstrument->getItemText(cmbInstrument->getSelectedItemIndex()) + ".wav"));
+		//file = new File(File::getCurrentWorkingDirectory().getChildFile("../../Samples/" + cmbInstrument->getItemText(cmbInstrument->getSelectedItemIndex()) + ".wav"));
+		file = new File(File::getCurrentWorkingDirectory().getChildFile("../../Samples/mmhmm/mmhmm_1.wav"));
 
 		ScopedPointer<AudioFormatReader> reader = audioFormatManager.createReaderFor(*file);
 
@@ -268,6 +269,7 @@ void KeytarSynth::setup()
 
 		// finally, add our sound. The reader will be deleted once synth is done with it
 		synth.clearSounds();
+		
 		synth.addSound(new SamplerSound("demo sound",
 			*reader,
 			allNotes,
