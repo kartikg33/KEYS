@@ -31,6 +31,7 @@
 KeytarSynth::KeytarSynth ()
 {
     //[Constructor_pre] You can add your own custom stuff here..
+	file = nullptr;
     //[/Constructor_pre]
 
     addAndMakeVisible (sldrVolume = new Slider ("Volume"));
@@ -89,7 +90,9 @@ KeytarSynth::~KeytarSynth()
     //[Destructor_pre]. You can add your own custom destruction code here..
 	waveform_L = nullptr;
 	waveform_R = nullptr;
-	delete file;
+	if(file != nullptr)
+		delete file;
+	file = nullptr;
     //[/Destructor_pre]
 
     sldrVolume = nullptr;
@@ -230,7 +233,8 @@ void KeytarSynth::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
     {
         //[UserComboBoxCode_cmbInstrument] -- add your combo box handling code here..
 		// load selected instrument
-		delete file;
+		if (file != nullptr)
+			delete file;
 		file = new File(File::getCurrentWorkingDirectory().getChildFile("../../Samples/" + cmbInstrument->getItemText(cmbInstrument->getSelectedItemIndex()) + ".wav"));
 
 		ScopedPointer<AudioFormatReader> reader = audioFormatManager.createReaderFor(*file);
@@ -275,6 +279,8 @@ void KeytarSynth::setup()
 		audioFormatManager.registerBasicFormats();
 	
 		// load selected instrument
+		if (file != nullptr)
+			delete file;
 		file = new File(File::getCurrentWorkingDirectory().getChildFile("../../Samples/" + cmbInstrument->getItemText(cmbInstrument->getSelectedItemIndex()) + ".wav"));
 
 		ScopedPointer<AudioFormatReader> reader = audioFormatManager.createReaderFor(*file);
