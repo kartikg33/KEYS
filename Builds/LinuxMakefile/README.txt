@@ -6,7 +6,7 @@ sudo apt-get install software-properties-common
 sudo apt-get update
 
 Install the following libraries:
-sudo apt-get -y install freeglut3-dev libasound2-dev libfreetype6-dev libjack-dev libx11-dev libxcomposite-dev libxcursor-dev libxinerama-dev mesa-common-dev libcurl4-openssl-dev libwebkitgtk-dev 
+sudo apt-get -y install freeglut3-dev libasound2-dev libfreetype6-dev libjack-dev libx11-dev libxcomposite-dev libxcursor-dev libxinerama-dev mesa-common-dev libcurl4-openssl-dev libwebkitgtk-dev libgtk-3-dev
 
 
 Install the following libraries:
