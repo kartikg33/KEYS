@@ -7,7 +7,7 @@ sudo apt install
 sudo apt update
 
 Install the following libraries:
-sudo apt-get -y install freeglut3-dev libasound2-dev libfreetype6-dev libjack-dev libx11-dev libxcomposite-dev libxcursor-dev libxinerama-dev mesa-common-dev
+sudo apt-get -y install freeglut3-dev libasound2-dev libfreetype6-dev libjack-dev libx11-dev libxcomposite-dev libxcursor-dev libxinerama-dev mesa-common-dev libcurl4-openssl-dev
 
 
 Install the following libraries:
