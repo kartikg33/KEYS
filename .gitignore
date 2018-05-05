@@ -1,8 +1,1 @@
-
-*.tlog
-*.tlog
-Builds/VisualStudio2015/x64/Debug/App/KEYS_App.tlog/unsuccessfulbuild
-Builds/VisualStudio2015/x64/Debug/App/KEYS_App.tlog/unsuccessfulbuild
-Builds/VisualStudio2015/x64/Debug/App/KEYS_App.tlog/CL.command.1.tlog
-Builds/VisualStudio2015/x64/
-*._*
+build/intermediate/*
