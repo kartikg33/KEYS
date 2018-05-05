@@ -31,6 +31,7 @@
 KeytarSynth::KeytarSynth ()
 {
     //[Constructor_pre] You can add your own custom stuff here..
+	file = nullptr;
     //[/Constructor_pre]
 
     addAndMakeVisible (sldrVolume = new Slider ("Volume"));
@@ -61,10 +62,10 @@ KeytarSynth::KeytarSynth ()
 
 
     //[UserPreSize]
-
+    
     //[/UserPreSize]
 
-    setSize (1280, 720);
+    setSize (800, 480);
 
 
     //[Constructor] You can add your own custom stuff here..
@@ -89,7 +90,9 @@ KeytarSynth::~KeytarSynth()
     //[Destructor_pre]. You can add your own custom destruction code here..
 	waveform_L = nullptr;
 	waveform_R = nullptr;
-	delete file;
+	if(file != nullptr)
+		delete file;
+	file = nullptr;
     //[/Destructor_pre]
 
     sldrVolume = nullptr;
@@ -229,6 +232,28 @@ void KeytarSynth::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
     if (comboBoxThatHasChanged == cmbInstrument)
     {
         //[UserComboBoxCode_cmbInstrument] -- add your combo box handling code here..
+		// load selected instrument
+		if (file != nullptr)
+			delete file;
+		file = new File(File::getCurrentWorkingDirectory().getChildFile("../../Samples/" + cmbInstrument->getItemText(cmbInstrument->getSelectedItemIndex()) + ".wav"));
+
+		ScopedPointer<AudioFormatReader> reader = audioFormatManager.createReaderFor(*file);
+
+		// allow our sound to be played on all notes
+		BigInteger allNotes;
+		allNotes.setRange(0, 128, true);
+
+		// finally, add our sound. The reader will be deleted once synth is done with it
+		synth.clearSounds();
+
+		synth.addSound(new SamplerSound("demo sound",
+			*reader,
+			allNotes,
+			60,   // root midi note (note C3 = 60)
+			0,  // attack time
+			10,  // release time
+			10.0  // maximum sample length
+		));
         //[/UserComboBoxCode_cmbInstrument]
     }
 
@@ -252,15 +277,13 @@ void KeytarSynth::setup()
 		// set up our AudioFormatManager class as detailed in the API docs
 		// we can now use WAV and AIFF files!
 		audioFormatManager.registerBasicFormats();
-
+	
 		// load selected instrument
+		if (file != nullptr)
+			delete file;
 		file = new File(File::getCurrentWorkingDirectory().getChildFile("../../Samples/" + cmbInstrument->getItemText(cmbInstrument->getSelectedItemIndex()) + ".wav"));
 
 		ScopedPointer<AudioFormatReader> reader = audioFormatManager.createReaderFor(*file);
-
-		// set up our AudioFormatReader to read in an audio sample
-		WavAudioFormat wavFormat;
-		//ScopedPointer<AudioFormatReader> audioReader(wavFormat.createReaderFor(new MemoryInputStream(BinaryData::cello_wav, BinaryData::cello_wavSize, false), true));
 
 		// allow our sound to be played on all notes
 		BigInteger allNotes;
@@ -268,6 +291,7 @@ void KeytarSynth::setup()
 
 		// finally, add our sound. The reader will be deleted once synth is done with it
 		synth.clearSounds();
+		
 		synth.addSound(new SamplerSound("demo sound",
 			*reader,
 			allNotes,
@@ -357,7 +381,7 @@ BEGIN_JUCER_METADATA
 <JUCER_COMPONENT documentType="Component" className="KeytarSynth" componentName=""
                  parentClasses="public Component, public AudioSource" constructorParams=""
                  variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
-                 overlayOpacity="0.330" fixedSize="1" initialWidth="1280" initialHeight="720">
+                 overlayOpacity="0.330" fixedSize="1" initialWidth="800" initialHeight="480">
   <BACKGROUND backgroundColour="ff282529">
     <TEXT pos="4 -4 108 52" fill="solid: ff00ffff" hasStroke="0" text="KEYS"
           fontname="Default font" fontsize="49.600000000000001421" kerning="0"
