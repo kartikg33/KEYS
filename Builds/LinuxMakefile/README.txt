@@ -1,13 +1,12 @@
 Install apt get:
 sudo apt install
 sudo apt update
-
-sudo apt-get install software-properties-common
 sudo apt-get update
 
 Install the following libraries:
-sudo apt-get -y install freeglut3-dev libasound2-dev libfreetype6-dev libjack-dev libx11-dev libxcomposite-dev libxcursor-dev libxinerama-dev mesa-common-dev libcurl4-openssl-dev libwebkitgtk-dev libgtk-3-dev
+sudo apt-get -y install freeglut3-dev libasound2-dev libfreetype6-dev libjack-dev libx11-dev libxcomposite-dev libxcursor-dev libxinerama-dev mesa-common-dev libcurl4-openssl-dev libwebkitgtk-dev libgtk-3-dev clang g++ libjack-jackd2-dev libxrandr-dev webkit2gtk-4.0 
 
+make CXX=clang++ -j4
 
 Install the following libraries:
 sudo apt-get install libxrandr-dev libwebkit-dev
