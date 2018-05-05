@@ -22,7 +22,7 @@ public:
     //==============================================================================
     MainContentComponent()
     {
-        setSize (800, 480); // raspberry pi 7'' touchscreen
+        setSize (1280, 720); // raspberry pi 7'' touchscreen
 
         // specify the number of input and output channels that we want to open
         setAudioChannels (2, 2);

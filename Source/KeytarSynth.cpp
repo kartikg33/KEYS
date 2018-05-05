@@ -62,10 +62,10 @@ KeytarSynth::KeytarSynth ()
 
 
     //[UserPreSize]
-    
+
     //[/UserPreSize]
 
-    setSize (800, 480);
+    setSize (1280, 720);
 
 
     //[Constructor] You can add your own custom stuff here..
@@ -277,7 +277,7 @@ void KeytarSynth::setup()
 		// set up our AudioFormatManager class as detailed in the API docs
 		// we can now use WAV and AIFF files!
 		audioFormatManager.registerBasicFormats();
-	
+
 		// load selected instrument
 		if (file != nullptr)
 			delete file;
@@ -291,7 +291,7 @@ void KeytarSynth::setup()
 
 		// finally, add our sound. The reader will be deleted once synth is done with it
 		synth.clearSounds();
-		
+
 		synth.addSound(new SamplerSound("demo sound",
 			*reader,
 			allNotes,
@@ -381,7 +381,7 @@ BEGIN_JUCER_METADATA
 <JUCER_COMPONENT documentType="Component" className="KeytarSynth" componentName=""
                  parentClasses="public Component, public AudioSource" constructorParams=""
                  variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
-                 overlayOpacity="0.330" fixedSize="1" initialWidth="800" initialHeight="480">
+                 overlayOpacity="0.330" fixedSize="1" initialWidth="1280" initialHeight="720">
   <BACKGROUND backgroundColour="ff282529">
     <TEXT pos="4 -4 108 52" fill="solid: ff00ffff" hasStroke="0" text="KEYS"
           fontname="Default font" fontsize="49.600000000000001421" kerning="0"
