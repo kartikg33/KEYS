@@ -96,7 +96,10 @@ private:
     //==============================================================================
     ScopedPointer<Slider> sldrVolume;
     ScopedPointer<TextButton> btnMIDISettings;
-    ScopedPointer<ComboBox> cmbInstrument;
+    ScopedPointer<ComboBox> cmbInstrumentRight;
+    ScopedPointer<Slider> sldrVolumeLeft;
+    ScopedPointer<Slider> sldrVolumeRight;
+    ScopedPointer<ComboBox> cmbInstrumentLeft;
 
 
     //==============================================================================

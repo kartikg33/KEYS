@@ -42,23 +42,52 @@ KeytarSynth::KeytarSynth ()
     sldrVolume->setColour (Slider::thumbColourId, Colours::aqua);
     sldrVolume->setColour (Slider::trackColourId, Colours::aqua);
     sldrVolume->setColour (Slider::rotarySliderFillColourId, Colours::aqua);
-    sldrVolume->setColour (Slider::rotarySliderOutlineColourId, Colours::cadetblue);
+    sldrVolume->setColour (Slider::rotarySliderOutlineColourId, Colour (0xff209399));
     sldrVolume->addListener (this);
 
     addAndMakeVisible (btnMIDISettings = new TextButton ("btnMIDISettings"));
     btnMIDISettings->setButtonText (TRANS("MIDI Settings"));
     btnMIDISettings->setConnectedEdges (Button::ConnectedOnBottom);
     btnMIDISettings->addListener (this);
-    btnMIDISettings->setColour (TextButton::buttonColourId, Colour (0xff2c3b3c));
-    btnMIDISettings->setColour (TextButton::textColourOffId, Colours::aquamarine);
-    btnMIDISettings->setColour (TextButton::textColourOnId, Colours::aqua);
+    btnMIDISettings->setColour (TextButton::buttonColourId, Colour (0xff209399));
+    btnMIDISettings->setColour (TextButton::textColourOffId, Colours::white);
+    btnMIDISettings->setColour (TextButton::textColourOnId, Colours::white);
 
-    addAndMakeVisible (cmbInstrument = new ComboBox ("Instrument"));
-    cmbInstrument->setEditableText (false);
-    cmbInstrument->setJustificationType (Justification::centredLeft);
-    cmbInstrument->setTextWhenNothingSelected (TRANS("Select Instrument"));
-    cmbInstrument->setTextWhenNoChoicesAvailable (TRANS("No Instruments"));
-    cmbInstrument->addListener (this);
+    addAndMakeVisible (cmbInstrumentRight = new ComboBox ("Instrument"));
+    cmbInstrumentRight->setEditableText (false);
+    cmbInstrumentRight->setJustificationType (Justification::centredLeft);
+    cmbInstrumentRight->setTextWhenNothingSelected (TRANS("Select Instrument for Right Hand"));
+    cmbInstrumentRight->setTextWhenNoChoicesAvailable (TRANS("No Instruments"));
+    cmbInstrumentRight->addListener (this);
+
+    addAndMakeVisible (sldrVolumeLeft = new Slider ("Volume"));
+    sldrVolumeLeft->setRange (0.1, 10, 0.1);
+    sldrVolumeLeft->setSliderStyle (Slider::Rotary);
+    sldrVolumeLeft->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    sldrVolumeLeft->setColour (Slider::backgroundColourId, Colour (0xffbe2a30));
+    sldrVolumeLeft->setColour (Slider::thumbColourId, Colour (0xffff7900));
+    sldrVolumeLeft->setColour (Slider::trackColourId, Colour (0xffff7900));
+    sldrVolumeLeft->setColour (Slider::rotarySliderFillColourId, Colour (0xffff7900));
+    sldrVolumeLeft->setColour (Slider::rotarySliderOutlineColourId, Colour (0xffa32626));
+    sldrVolumeLeft->addListener (this);
+
+    addAndMakeVisible (sldrVolumeRight = new Slider ("Volume"));
+    sldrVolumeRight->setRange (0.1, 10, 0.1);
+    sldrVolumeRight->setSliderStyle (Slider::Rotary);
+    sldrVolumeRight->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    sldrVolumeRight->setColour (Slider::backgroundColourId, Colour (0xffbe2a30));
+    sldrVolumeRight->setColour (Slider::thumbColourId, Colour (0xffff7900));
+    sldrVolumeRight->setColour (Slider::trackColourId, Colour (0xffff7900));
+    sldrVolumeRight->setColour (Slider::rotarySliderFillColourId, Colour (0xffff7900));
+    sldrVolumeRight->setColour (Slider::rotarySliderOutlineColourId, Colour (0xffa32626));
+    sldrVolumeRight->addListener (this);
+
+    addAndMakeVisible (cmbInstrumentLeft = new ComboBox ("Instrument"));
+    cmbInstrumentLeft->setEditableText (false);
+    cmbInstrumentLeft->setJustificationType (Justification::centredLeft);
+    cmbInstrumentLeft->setTextWhenNothingSelected (TRANS("Select Instrument for Left Hand"));
+    cmbInstrumentLeft->setTextWhenNoChoicesAvailable (TRANS("No Instruments"));
+    cmbInstrumentLeft->addListener (this);
 
 
     //[UserPreSize]
@@ -97,7 +126,10 @@ KeytarSynth::~KeytarSynth()
 
     sldrVolume = nullptr;
     btnMIDISettings = nullptr;
-    cmbInstrument = nullptr;
+    cmbInstrumentRight = nullptr;
+    sldrVolumeLeft = nullptr;
+    sldrVolumeRight = nullptr;
+    cmbInstrumentLeft = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -110,42 +142,78 @@ void KeytarSynth::paint (Graphics& g)
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]
 
-    g.fillAll (Colour (0xff282529));
+    g.fillAll (Colour (0xff081114));
 
     {
-        int x = 4, y = -4, width = 108, height = 52;
+        int x = 6, y = 0, width = 152, height = 52;
         String text (TRANS("KEYS"));
-        Colour fillColour = Colours::aqua;
+        Colour fillColour = Colour (0xff209399);
         //[UserPaintCustomArguments] Customize the painting arguments here..
         //[/UserPaintCustomArguments]
         g.setColour (fillColour);
-        g.setFont (Font (49.60f, Font::plain).withTypefaceStyle ("Regular"));
+        g.setFont (Font ("Helvetica Neue", 49.60f, Font::plain).withTypefaceStyle ("UltraLight").withExtraKerningFactor (0.128f));
         g.drawText (text, x, y, width, height,
                     Justification::centredLeft, true);
     }
 
     {
-        int x = 8, y = 44, width = 112, height = 20;
-        String text (TRANS("Kartik Gohil"));
-        Colour fillColour = Colours::cadetblue;
+        int x = 8, y = 60, width = 144, height = 20;
+        String text (TRANS("by Kartik Gohil"));
+        Colour fillColour = Colour (0xffa32626);
         //[UserPaintCustomArguments] Customize the painting arguments here..
         //[/UserPaintCustomArguments]
         g.setColour (fillColour);
-        g.setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
+        g.setFont (Font ("Helvetica Neue", 14.20f, Font::plain).withTypefaceStyle ("UltraLight").withExtraKerningFactor (0.054f));
         g.drawText (text, x, y, width, height,
                     Justification::centredLeft, true);
     }
 
     {
-        int x = 672, y = 0, width = 152, height = 24;
-        String text (TRANS("Vol"));
+        int x = 576, y = 592, width = 136, height = 40;
+        String text (TRANS("Main Volume"));
         Colour fillColour = Colours::aqua;
         //[UserPaintCustomArguments] Customize the painting arguments here..
         //[/UserPaintCustomArguments]
         g.setColour (fillColour);
-        g.setFont (Font (20.20f, Font::plain).withTypefaceStyle ("Regular"));
+        g.setFont (Font ("Helvetica Neue", 23.30f, Font::plain).withTypefaceStyle ("UltraLight").withExtraKerningFactor (0.053f));
         g.drawText (text, x, y, width, height,
                     Justification::centred, true);
+    }
+
+    {
+        int x = 416, y = 528, width = 80, height = 40;
+        String text (TRANS("Left"));
+        Colour fillColour = Colour (0xffff7900);
+        //[UserPaintCustomArguments] Customize the painting arguments here..
+        //[/UserPaintCustomArguments]
+        g.setColour (fillColour);
+        g.setFont (Font ("Helvetica Neue", 23.30f, Font::plain).withTypefaceStyle ("UltraLight").withExtraKerningFactor (0.053f));
+        g.drawText (text, x, y, width, height,
+                    Justification::centred, true);
+    }
+
+    {
+        int x = 792, y = 528, width = 72, height = 40;
+        String text (TRANS("Right"));
+        Colour fillColour = Colour (0xffff7900);
+        //[UserPaintCustomArguments] Customize the painting arguments here..
+        //[/UserPaintCustomArguments]
+        g.setColour (fillColour);
+        g.setFont (Font ("Helvetica Neue", 23.30f, Font::plain).withTypefaceStyle ("UltraLight").withExtraKerningFactor (0.053f));
+        g.drawText (text, x, y, width, height,
+                    Justification::centred, true);
+    }
+
+    {
+        int x = 8, y = 44, width = 144, height = 20;
+        String text (TRANS("v1.0"));
+        Colour fillColour = Colour (0xff209399);
+        //[UserPaintCustomArguments] Customize the painting arguments here..
+        //[/UserPaintCustomArguments]
+        g.setColour (fillColour);
+        g.setFont (Font ("Helvetica Neue", 14.20f, Font::plain).withTypefaceStyle ("UltraLight").withExtraKerningFactor (0.054f));
+        g.drawText (text, x, y, width, height,
+                    Justification::centredLeft, true);
     }
 
     //[UserPaint] Add your own custom painting code here..
@@ -182,9 +250,12 @@ void KeytarSynth::resized()
     //[UserPreResize] Add your own custom resize code here..
     //[/UserPreResize]
 
-    sldrVolume->setBounds (671, 16, 152, 112);
-    btnMIDISettings->setBounds (8, 424, 136, 48);
-    cmbInstrument->setBounds (480, 440, 302, 24);
+    sldrVolume->setBounds (540, 520, 200, 200);
+    btnMIDISettings->setBounds (1176, 8, 100, 100);
+    cmbInstrumentRight->setBounds (742, 640, 530, 64);
+    sldrVolumeLeft->setBounds (380, 480, 150, 150);
+    sldrVolumeRight->setBounds (750, 480, 150, 150);
+    cmbInstrumentLeft->setBounds (8, 640, 530, 64);
     //[UserResized] Add your own custom resize handling here..
 	keys.centreWithSize(getWidth(), getHeight());
     //[/UserResized]
@@ -200,6 +271,16 @@ void KeytarSynth::sliderValueChanged (Slider* sliderThatWasMoved)
         //[UserSliderCode_sldrVolume] -- add your slider handling code here..
 		volume = (double)(sldrVolume->getValue()); // set to value of volume slider
         //[/UserSliderCode_sldrVolume]
+    }
+    else if (sliderThatWasMoved == sldrVolumeLeft)
+    {
+        //[UserSliderCode_sldrVolumeLeft] -- add your slider handling code here..
+        //[/UserSliderCode_sldrVolumeLeft]
+    }
+    else if (sliderThatWasMoved == sldrVolumeRight)
+    {
+        //[UserSliderCode_sldrVolumeRight] -- add your slider handling code here..
+        //[/UserSliderCode_sldrVolumeRight]
     }
 
     //[UsersliderValueChanged_Post]
@@ -229,9 +310,9 @@ void KeytarSynth::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
     //[UsercomboBoxChanged_Pre]
     //[/UsercomboBoxChanged_Pre]
 
-    if (comboBoxThatHasChanged == cmbInstrument)
+    if (comboBoxThatHasChanged == cmbInstrumentRight)
     {
-        //[UserComboBoxCode_cmbInstrument] -- add your combo box handling code here..
+        //[UserComboBoxCode_cmbInstrumentRight] -- add your combo box handling code here..
 		// load selected instrument
 		if (file != nullptr)
 			delete file;
@@ -254,7 +335,12 @@ void KeytarSynth::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
 			10,  // release time
 			10.0  // maximum sample length
 		));
-        //[/UserComboBoxCode_cmbInstrument]
+        //[/UserComboBoxCode_cmbInstrumentRight]
+    }
+    else if (comboBoxThatHasChanged == cmbInstrumentLeft)
+    {
+        //[UserComboBoxCode_cmbInstrumentLeft] -- add your combo box handling code here..
+        //[/UserComboBoxCode_cmbInstrumentLeft]
     }
 
     //[UsercomboBoxChanged_Post]
@@ -382,31 +468,58 @@ BEGIN_JUCER_METADATA
                  parentClasses="public Component, public AudioSource" constructorParams=""
                  variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
                  overlayOpacity="0.330" fixedSize="1" initialWidth="1280" initialHeight="720">
-  <BACKGROUND backgroundColour="ff282529">
-    <TEXT pos="4 -4 108 52" fill="solid: ff00ffff" hasStroke="0" text="KEYS"
-          fontname="Default font" fontsize="49.600000000000001421" kerning="0"
-          bold="0" italic="0" justification="33"/>
-    <TEXT pos="8 44 112 20" fill="solid: ff5f9ea0" hasStroke="0" text="Kartik Gohil"
-          fontname="Default font" fontsize="15" kerning="0" bold="0" italic="0"
-          justification="33"/>
-    <TEXT pos="672 0 152 24" fill="solid: ff00ffff" hasStroke="0" text="Vol"
-          fontname="Default font" fontsize="20.199999999999999289" kerning="0"
-          bold="0" italic="0" justification="36"/>
+  <BACKGROUND backgroundColour="ff081114">
+    <TEXT pos="6 0 152 52" fill="solid: ff209399" hasStroke="0" text="KEYS"
+          fontname="Helvetica Neue" fontsize="49.600000000000001421" kerning="0.12800000000000000266"
+          bold="0" italic="0" justification="33" typefaceStyle="UltraLight"/>
+    <TEXT pos="8 60 144 20" fill="solid: ffa32626" hasStroke="0" text="by Kartik Gohil"
+          fontname="Helvetica Neue" fontsize="14.199999999999999289" kerning="0.053999999999999999389"
+          bold="0" italic="0" justification="33" typefaceStyle="UltraLight"/>
+    <TEXT pos="576 592 136 40" fill="solid: ff00ffff" hasStroke="0" text="Main Volume"
+          fontname="Helvetica Neue" fontsize="23.300000000000000711" kerning="0.052999999999999998501"
+          bold="0" italic="0" justification="36" typefaceStyle="UltraLight"/>
+    <TEXT pos="416 528 80 40" fill="solid: ffff7900" hasStroke="0" text="Left"
+          fontname="Helvetica Neue" fontsize="23.300000000000000711" kerning="0.052999999999999998501"
+          bold="0" italic="0" justification="36" typefaceStyle="UltraLight"/>
+    <TEXT pos="792 528 72 40" fill="solid: ffff7900" hasStroke="0" text="Right"
+          fontname="Helvetica Neue" fontsize="23.300000000000000711" kerning="0.052999999999999998501"
+          bold="0" italic="0" justification="36" typefaceStyle="UltraLight"/>
+    <TEXT pos="8 44 144 20" fill="solid: ff209399" hasStroke="0" text="v1.0"
+          fontname="Helvetica Neue" fontsize="14.199999999999999289" kerning="0.053999999999999999389"
+          bold="0" italic="0" justification="33" typefaceStyle="UltraLight"/>
   </BACKGROUND>
   <SLIDER name="Volume" id="f301e62471c2d990" memberName="sldrVolume" virtualName=""
-          explicitFocusOrder="0" pos="671 16 152 112" bkgcol="ffbe2a30"
+          explicitFocusOrder="0" pos="540 520 200 200" bkgcol="ffbe2a30"
           thumbcol="ff00ffff" trackcol="ff00ffff" rotarysliderfill="ff00ffff"
-          rotaryslideroutline="ff5f9ea0" min="0.10000000000000000555" max="10"
+          rotaryslideroutline="ff209399" min="0.10000000000000000555" max="10"
           int="0.10000000000000000555" style="Rotary" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"
           needsCallback="1"/>
   <TEXTBUTTON name="btnMIDISettings" id="531f0b272053244d" memberName="btnMIDISettings"
-              virtualName="" explicitFocusOrder="0" pos="8 424 136 48" bgColOff="ff2c3b3c"
-              textCol="ff7fffd4" textColOn="ff00ffff" buttonText="MIDI Settings"
+              virtualName="" explicitFocusOrder="0" pos="1176 8 100 100" bgColOff="ff209399"
+              textCol="ffffffff" textColOn="ffffffff" buttonText="MIDI Settings"
               connectedEdges="8" needsCallback="1" radioGroupId="0"/>
-  <COMBOBOX name="Instrument" id="6e6e0e0f0d27412c" memberName="cmbInstrument"
-            virtualName="" explicitFocusOrder="0" pos="480 440 302 24" editable="0"
-            layout="33" items="" textWhenNonSelected="Select Instrument"
+  <COMBOBOX name="Instrument" id="6e6e0e0f0d27412c" memberName="cmbInstrumentRight"
+            virtualName="" explicitFocusOrder="0" pos="742 640 530 64" editable="0"
+            layout="33" items="" textWhenNonSelected="Select Instrument for Right Hand"
+            textWhenNoItems="No Instruments"/>
+  <SLIDER name="Volume" id="39dc6b38110ed912" memberName="sldrVolumeLeft"
+          virtualName="" explicitFocusOrder="0" pos="380 480 150 150" bkgcol="ffbe2a30"
+          thumbcol="ffff7900" trackcol="ffff7900" rotarysliderfill="ffff7900"
+          rotaryslideroutline="ffa32626" min="0.10000000000000000555" max="10"
+          int="0.10000000000000000555" style="Rotary" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"
+          needsCallback="1"/>
+  <SLIDER name="Volume" id="68022b7c05ec9ac" memberName="sldrVolumeRight"
+          virtualName="" explicitFocusOrder="0" pos="750 480 150 150" bkgcol="ffbe2a30"
+          thumbcol="ffff7900" trackcol="ffff7900" rotarysliderfill="ffff7900"
+          rotaryslideroutline="ffa32626" min="0.10000000000000000555" max="10"
+          int="0.10000000000000000555" style="Rotary" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"
+          needsCallback="1"/>
+  <COMBOBOX name="Instrument" id="bc9e01f58f27788" memberName="cmbInstrumentLeft"
+            virtualName="" explicitFocusOrder="0" pos="8 640 530 64" editable="0"
+            layout="33" items="" textWhenNonSelected="Select Instrument for Left Hand"
             textWhenNoItems="No Instruments"/>
 </JUCER_COMPONENT>
 
